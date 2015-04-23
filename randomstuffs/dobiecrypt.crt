@@ -1,0 +1,111 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            d2:04:74:9c:eb:e9:1b:24:b6:fc:02:4c:74:3f:36:df
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=GB, ST=Greater Manchester, L=Salford, O=COMODO CA Limited, CN=COMODO RSA Domain Validation Secure Server CA
+        Validity
+            Not Before: Jun 10 00:00:00 2014 GMT
+            Not After : Jun 10 23:59:59 2015 GMT
+        Subject: OU=Domain Control Validated, OU=PositiveSSL, CN=www.dobiecrypt.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:9f:b4:36:b5:6e:19:8f:b1:38:d1:ef:af:72:29:
+                    07:c4:43:f7:34:ff:dd:41:39:d6:a4:c3:06:e9:2e:
+                    2c:23:24:ac:29:d3:c0:60:bc:2d:7e:b7:d2:c1:52:
+                    d8:b2:b1:34:51:c6:53:1a:32:13:c5:84:14:23:6e:
+                    91:96:9a:29:11:82:7f:80:1a:83:cc:c6:41:c8:fc:
+                    12:a1:a5:14:18:35:4b:2f:71:f8:c3:fe:a0:70:d6:
+                    1e:e7:13:41:57:65:ee:a1:dd:99:bc:26:67:c7:be:
+                    15:33:59:cc:22:ea:8a:0b:5d:06:c3:7f:92:23:ad:
+                    47:20:87:a9:78:71:01:59:93:29:2b:61:37:df:9a:
+                    3e:2e:0e:44:6f:26:54:79:20:b8:94:3c:93:24:7d:
+                    4a:0d:e9:a5:b3:8e:04:bc:32:b7:3f:45:81:de:82:
+                    aa:1b:29:56:c2:01:85:6f:4d:2b:09:ad:bc:3b:53:
+                    56:9d:9c:06:2e:da:d6:21:88:75:05:9f:cb:7a:32:
+                    61:cd:49:e8:7c:fe:4f:ea:21:63:97:e6:4d:0b:81:
+                    b4:15:a9:c8:36:81:8d:e7:d3:35:3a:0a:4d:b1:bc:
+                    93:26:8f:4a:21:5f:9a:a9:e8:ae:c7:ef:d2:34:29:
+                    4d:a7:e7:08:4b:3d:02:81:63:ab:63:f7:91:15:e4:
+                    39:c3
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Authority Key Identifier: 
+                keyid:90:AF:6A:3A:94:5A:0B:D8:90:EA:12:56:73:DF:43:B4:3A:28:DA:E7
+
+            X509v3 Subject Key Identifier: 
+                A6:BE:E9:69:19:C3:8C:19:FB:C6:D0:E0:F1:FC:8A:EB:C3:54:52:39
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Basic Constraints: critical
+                CA:FALSE
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Certificate Policies: 
+                Policy: 1.3.6.1.4.1.6449.1.2.1.3.4
+                  CPS: https://secure.comodo.net/CPS
+                Policy: 2.23.140.1.2.1
+
+            X509v3 CRL Distribution Points: 
+
+                Full Name:
+                  URI:http://crl.comodoca.com/COMODORSADomainValidationSecureServerCA.crl
+
+            Authority Information Access: 
+                CA Issuers - URI:http://crt.comodoca.com/COMODORSADomainValidationSecureServerCA.crt
+                OCSP - URI:http://ocsp.comodoca.com
+
+            X509v3 Subject Alternative Name: 
+                DNS:www.dobiecrypt.com, DNS:dobiecrypt.com
+    Signature Algorithm: sha256WithRSAEncryption
+         3b:07:ca:0e:45:8a:79:c4:e4:56:58:9a:a9:16:e8:c6:19:ce:
+         05:7d:d4:0e:02:92:09:1b:0b:f7:3e:bb:2b:fb:06:84:a4:8f:
+         16:1d:3c:ca:36:5c:a6:10:3e:8b:0c:71:9b:f1:2d:d0:39:57:
+         5a:7d:45:af:da:ce:73:e4:ff:23:37:3e:be:15:c4:04:d9:2b:
+         8a:e7:82:14:3a:76:94:b6:e3:6f:90:da:90:fc:08:99:cd:24:
+         b5:fb:a7:99:f9:7b:b5:0c:c6:71:d1:69:68:fc:da:8a:48:07:
+         f3:1b:d4:8d:8d:d5:ba:2a:6e:79:7f:02:ed:d6:91:50:3e:41:
+         29:ea:c6:9f:02:4e:b5:41:cb:df:ad:25:d6:c4:88:1d:be:cf:
+         3c:ab:b7:63:6b:87:57:71:c5:e3:d9:72:cd:1a:9e:ec:df:c4:
+         3e:91:c9:ab:24:db:ff:80:ae:d7:91:7f:e9:5a:ac:da:43:44:
+         e6:fc:87:db:f5:be:6d:6e:83:27:fd:b0:e8:0d:61:29:76:43:
+         9d:45:15:7e:9e:33:8c:75:31:c8:1a:7a:fb:b4:20:74:96:0d:
+         53:90:db:57:b1:6d:9d:97:c2:c9:b0:34:c9:96:7b:c4:dd:04:
+         54:df:5e:d3:84:43:bb:cd:f8:61:82:47:a3:5b:cb:71:1e:fe:
+         63:a7:a6:f0
+
+
+-----BEGIN CERTIFICATE-----
+MIIFVDCCBDygAwIBAgIRANIEdJzr6RsktvwCTHQ/Nt8wDQYJKoZIhvcNAQELBQAw
+gZAxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAO
+BgNVBAcTB1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTYwNAYD
+VQQDEy1DT01PRE8gUlNBIERvbWFpbiBWYWxpZGF0aW9uIFNlY3VyZSBTZXJ2ZXIg
+Q0EwHhcNMTQwNjEwMDAwMDAwWhcNMTUwNjEwMjM1OTU5WjBWMSEwHwYDVQQLExhE
+b21haW4gQ29udHJvbCBWYWxpZGF0ZWQxFDASBgNVBAsTC1Bvc2l0aXZlU1NMMRsw
+GQYDVQQDExJ3d3cuZG9iaWVjcnlwdC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQCftDa1bhmPsTjR769yKQfEQ/c0/91BOdakwwbpLiwjJKwp08Bg
+vC1+t9LBUtiysTRRxlMaMhPFhBQjbpGWmikRgn+AGoPMxkHI/BKhpRQYNUsvcfjD
+/qBw1h7nE0FXZe6h3Zm8JmfHvhUzWcwi6ooLXQbDf5IjrUcgh6l4cQFZkykrYTff
+mj4uDkRvJlR5ILiUPJMkfUoN6aWzjgS8Mrc/RYHegqobKVbCAYVvTSsJrbw7U1ad
+nAYu2tYhiHUFn8t6MmHNSeh8/k/qIWOX5k0LgbQVqcg2gY3n0zU6Ck2xvJMmj0oh
+X5qp6K7H79I0KU2n5whLPQKBY6tj95EV5DnDAgMBAAGjggHgMIIB3DAfBgNVHSME
+GDAWgBSQr2o6lFoL2JDqElZz30O0Oija5zAdBgNVHQ4EFgQUpr7paRnDjBn7xtDg
+8fyK68NUUjkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwEGCCsGAQUFBwMCMFAGA1UdIARJMEcwOwYMKwYBBAGyMQECAQME
+MCswKQYIKwYBBQUHAgEWHWh0dHBzOi8vc2VjdXJlLmNvbW9kby5uZXQvQ1BTMAgG
+BmeBDAECATBUBgNVHR8ETTBLMEmgR6BFhkNodHRwOi8vY3JsLmNvbW9kb2NhLmNv
+bS9DT01PRE9SU0FEb21haW5WYWxpZGF0aW9uU2VjdXJlU2VydmVyQ0EuY3JsMIGF
+BggrBgEFBQcBAQR5MHcwTwYIKwYBBQUHMAKGQ2h0dHA6Ly9jcnQuY29tb2RvY2Eu
+Y29tL0NPTU9ET1JTQURvbWFpblZhbGlkYXRpb25TZWN1cmVTZXJ2ZXJDQS5jcnQw
+JAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAtBgNVHREEJjAk
+ghJ3d3cuZG9iaWVjcnlwdC5jb22CDmRvYmllY3J5cHQuY29tMA0GCSqGSIb3DQEB
+CwUAA4IBAQA7B8oORYp5xORWWJqpFujGGc4FfdQOApIJGwv3Prsr+waEpI8WHTzK
+NlymED6LDHGb8S3QOVdafUWv2s5z5P8jNz6+FcQE2SuK54IUOnaUtuNvkNqQ/AiZ
+zSS1+6eZ+Xu1DMZx0Wlo/NqKSAfzG9SNjdW6Km55fwLt1pFQPkEp6safAk61Qcvf
+rSXWxIgdvs88q7dja4dXccXj2XLNGp7s38Q+kcmrJNv/gK7XkX/pWqzaQ0Tm/Ifb
+9b5tboMn/bDoDWEpdkOdRRV+njOMdTHIGnr7tCB0lg1TkNtXsW2dl8LJsDTJlnvE
+3QRU317ThEO7zfhhgkejW8txHv5jp6bw
+-----END CERTIFICATE-----

@@ -1,0 +1,119 @@
+
+div.zgChart div.storeTitle { font-weight: bold; }
+div.zgChart div.subheadText { font-size: 11px; padding: 2px 0 8px 0; }
+
+div.zgChart .learnMore { font-size: 11px; text-decoration: none; font-weight: normal; padding-left: 2px; }
+div.zgChart .learnMore a:visited { color: #004B91; }
+div.zgChart .rankedItemImage { position:relative; margin-bottom: 10px; }
+div.zgChart .rankedItemNarrowImage { padding-bottom: 5px; }
+div.zgChart span.rank { font-weight: bold; font-size: 16px; font-family: Arial; line-height: 10px; }
+div.zgChart div.rankedItemInfo { line-height: 16px; margin-bottom: 5px; }
+div.zgChart a.titleLink { font-weight: normal; font-size: 12px; text-decoration: none; font-family: Arial; }
+div.zgChart a.titleLink:hover, 
+div.zgChart a.playbackTitleLink:hover { text-decoration: underline; }
+div.zgChart a.playbackTitleLink { font-weight: normal; text-decoration: none; }
+div.zgChart .byline { font-size: 11px; }
+div.zgChart .byline a { text-decoration: none; }
+div.zgChart .byline a:hover { text-decoration: underline; }
+div.zgChart .priceBlock { position:relative; font-size: 11px; padding-top:2px; }
+div.zgChart .priceBlock .pricePerUnit { color: #990000; }
+div.zgChart .mapOrRangePrice { padding-top: 2px; }
+div.zgChart strong.price { font-size: 14px; font-weight:normal; }
+div.zgChart .listprice { font-family: verdana,arial,helvetica,sans-serif; color: #666; }
+div.zgChart .moverRank { color: #390; }
+div.zgChart .dilText { color: #666; font-size: 11px; }
+div.zgChart .noDil { display: inline; line-height: 8px; }
+div.zgChart div.platformBinding { padding-top: 2px; font-size: 11px; color: #666; }
+
+
+div.zgChart div.mp3AsinContainer { position: absolute; left: 0; top: 52px; overflow: hidden; width: 75px; height: 24px; cursor: pointer; }
+div.zgChart div.mp3AsinPlayHover { background: #FFF; opacity: 0.9; }
+div.zgChart div.mp3AsinText { position:absolute; top: 0; left:24px; width:50px; height: 24px; line-height: 24px; font-size: 10px; display: none; }
+div.zgChart div.mp3AsinPlayHover div.mp3AsinText { display: block; }
+
+div.zg_seeAll { position: relative; }
+div.zg_seeAll div { position: absolute; top: 0; right: 5px; }
+
+
+.arrowSprite {
+  display: -moz-inline-box;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  vertical-align: middle;
+  background: url(http://g-ecx.images-amazon.com/images/G/15/x-locale/common/icons/up_down_arrows._V156405358_.png) no-repeat;
+}
+.arrowSprite span { position: absolute; top: -9999px; }
+.arrowUp_s   { background-position: 0px -8px; width: 15px; height: 15px; }
+.arrowDown_s { background-position: -19px -8px; width: 15px; height: 15px; }
+
+
+div.zg_chart_tab_container {
+  margin: 0 -6px;
+}
+div.zg_chart_tab_container_narrow {
+  margin: 0 -6px;
+  width: 175px;
+  line-height: 0;
+}
+div.zg_explore_tabs {
+  border-bottom: 1px solid #afcee2;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  padding: 0;
+  width: 100%;
+}
+div.zg_explore_tabs ul {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  margin: 0;
+  padding-left: 2px;
+}
+div.zg_explore_tabs li {
+  background: #ebf1ff url(http://g-ecx.images-amazon.com/images/G/15/zeitgeist/tabs/tab_left._V168572966_.gif) no-repeat scroll left top;
+  color: #004B91;
+  float: left;
+  margin-right: 2px;
+  padding: 0;
+  position: relative;
+  top: 1px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.zg_explore_tabs li div {
+  background: transparent url(http://g-ecx.images-amazon.com/images/G/15/zeitgeist/tabs/tab_right._V168572979_.gif) no-repeat scroll right top;
+  padding: 5px 5px 4px;
+  font-family: Arial, sans-serif;
+  border-bottom: 1px solid #afcee2;
+  font-size: 12px;
+  color: #004B91;
+  white-space:nowrap;       
+}
+div.zg_explore_tabs li div a, div.zg_explore_tabs li div a:link, div.zg_explore_tabs li div a:visited {
+  text-decoration: none;
+  color: inherit;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+div.zg_explore_tabs li.zg_explore_currentTab {
+  background-image: url(http://g-ecx.images-amazon.com/images/G/15/zeitgeist/tabs/tab_selected_left._V168572935_.gif);
+  background-color: #fff;
+  color: #E47911;
+  cursor: default;
+}
+div.zg_explore_tabs li.zg_explore_currentTab div {
+  background-image: url(http://g-ecx.images-amazon.com/images/G/15/zeitgeist/tabs/tab_selected_right._V168572950_.gif);
+  padding-bottom: 4px;
+  border-bottom: 1px solid #fff;
+  color: #E47911;
+}
+div.zg_explore_tabs li.zg_explore_currentTab div a {
+  color: #E47911;
+}
+a:visited.zg_whyfree {
+  color: #004B91;
+}
+

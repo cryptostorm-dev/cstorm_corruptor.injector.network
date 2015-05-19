@@ -1,0 +1,57 @@
+Actually just stashing this here so I can take a closer look when time allows... not sure if it's as-expected, or perhaps a bit more fingernails-on-chaulkboard tbh...
+
+root@InjectThisMotherfucker:/# grep "statoverride" -r /
+
+grep: /run/user/1000/gvfs: Permission denied
+/etc/cron.daily/dpkg:    dbfiles="arch status diversions statoverride"
+/etc/cron.daily/man-db:  if ! dpkg-statoverride --list /var/cache/man >/dev/null 2>&1; then
+grep: /proc/sysrq-trigger: Input/output error
+Binary file /proc/kcore matches
+grep: /proc/sys/fs/binfmt_misc/register: Invalid argument
+grep: /proc/sys/net/ipv4/route/flush: Permission denied
+grep: /proc/sys/net/ipv6/route/flush: Permission denied
+grep: /proc/sys/vm/compact_memory: Permission denied
+grep: /proc/1/task/1/mem: Input/output error
+grep: /proc/1/task/1/clear_refs: Invalid argument
+grep: /proc/1/task/1/attr/current: Invalid argument
+grep: /proc/1/task/1/attr/prev: Invalid argument
+grep: /proc/1/task/1/attr/exec: Invalid argument
+grep: /proc/1/task/1/attr/fscreate: Invalid argument
+grep: /proc/1/task/1/attr/keycreate: Invalid argument
+grep: /proc/1/task/1/attr/sockcreate: Invalid argument
+grep: /proc/1/mem: Input/output error
+...
+/var/lib/dpkg/info/exim4-config.postinst:	if ! dpkg-statoverride --list /etc/exim4/passwd.client > /dev/null 2>&1 
+/var/lib/dpkg/info/exim4-config.postinst:		dpkg-statoverride --update --add root Debian-exim 0640 \
+/var/lib/dpkg/info/exim4-config.postinst:			if ! dpkg-statoverride --list "$i" > /dev/null ; then
+/var/lib/dpkg/info/exim4-config.postinst:			if ! dpkg-statoverride --list "$i" > /dev/null ; then
+/var/lib/dpkg/info/exim4-config.postrm:    	dpkg-statoverride --remove /etc/exim4/passwd.client || true
+/var/lib/dpkg/info/openssh-client.postinst:	if ! dpkg-statoverride --list /usr/bin/ssh-agent >/dev/null; then
+/var/lib/dpkg/info/nfs-common.postinst:            if dpkg-statoverride --list /sbin/mount.nfs >/dev/null 2>&1; then
+/var/lib/dpkg/info/nfs-common.postinst:                dpkg-statoverride --remove /sbin/mount.nfs
+/var/lib/dpkg/info/cups.postinst:    if ! dpkg-statoverride --list /usr/share/ppd/custom > /dev/null
+/var/lib/dpkg/info/spice-client-glib-usb-acl-helper.postinst:if ! dpkg-statoverride --list /usr/lib/spice-gtk/spice-client-glib-usb-acl-helper >/dev/null 2>&1
+/var/lib/dpkg/info/spice-client-glib-usb-acl-helper.postinst:  dpkg-statoverride --update --add root root 4755 /usr/lib/spice-gtk/spice-client-glib-usb-acl-helper
+/var/lib/dpkg/info/ssl-cert.postrm:	if dpkg-statoverride --list /etc/ssl/private 2>&1 | grep -q "root ssl-cert 710"
+/var/lib/dpkg/info/ssl-cert.postrm:		dpkg-statoverride --remove /etc/ssl/private
+/var/lib/dpkg/info/man-db.preinst:# Migrate old statoverrides to new paths.
+/var/lib/dpkg/info/man-db.preinst:	overrides="$(dpkg-statoverride --list /usr/lib/man-db/$x || true)"
+/var/lib/dpkg/info/man-db.preinst:	    dpkg-statoverride --remove "$file" || true
+/var/lib/dpkg/info/man-db.preinst:	    dpkg-statoverride --add "$owner" "$group" "$mode" /usr/bin/$x || true
+/var/lib/dpkg/info/nfs-common.postrm:	dpkg-statoverride --remove /sbin/mount.nfs || true
+/var/lib/dpkg/info/dpkg.postinst:    for file in diversions statoverride status; do
+/var/lib/dpkg/info/ssl-cert.postinst:if ! dpkg-statoverride --list /etc/ssl/private >/dev/null 2>&1
+/var/lib/dpkg/info/ssl-cert.postinst:    dpkg-statoverride --update --add root ssl-cert 710 /etc/ssl/private
+/var/lib/dpkg/info/fuse.postinst:		if ! dpkg-statoverride --list /bin/fusermount > /dev/null 2>&1
+...
+/var/lib/dpkg/info/spice-client-glib-usb-acl-helper.postrm:if dpkg-statoverride --list /usr/lib/spice-gtk/spice-client-glib-usb-acl-helper >/dev/null 2>&1
+/var/lib/dpkg/info/spice-client-glib-usb-acl-helper.postrm:  dpkg-statoverride --remove /usr/lib/spice-gtk/spice-client-glib-usb-acl-helper
+/var/lib/dpkg/info/mlocate.postrm:    dpkg-statoverride --remove /usr/bin/mlocate || test $? -eq 2
+/var/lib/dpkg/info/dpkg.md5sums:5541edca476dd3f73a68736e804fa389  usr/bin/dpkg-statoverride
+/var/lib/dpkg/info/dpkg.md5sums:e138c18a74ef1284deb34e2b6079da31  usr/share/man/de/man8/dpkg-statoverride.8.gz
+/var/lib/dpkg/info/dpkg.md5sums:7064584b3e3b43c6e9ea6e57ad85c4da  usr/share/man/fr/man8/dpkg-statoverride.8.gz
+/var/lib/dpkg/info/dpkg.md5sums:872f6b932825ffd6a3b9bed44615dafa  usr/share/man/it/man8/dpkg-statoverride.8.gz
+/var/lib/dpkg/info/dpkg.md5sums:ef48c9c7fcaef134316f2bbe11357af0  usr/share/man/man8/dpkg-statoverride.8.gz
+/var/lib/dpkg/info/dpkg.md5sums:e7ab741644a0257c62560bbb2a942079  usr/share/man/sv/man8/dpkg-statoverride.8.gz
+/var/lib/dpkg/info/cups-daemon.postinst:        if [ -f $i ] && ! dpkg-statoverride --list $i > /dev/null; then
+Binary file /var/lib/mlocate/mlocate.db matches

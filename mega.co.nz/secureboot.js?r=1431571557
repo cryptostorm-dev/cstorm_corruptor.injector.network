@@ -1,0 +1,1430 @@
+var b_u=0;
+var maintenance=false;
+var ua = window.navigator.userAgent.toLowerCase();
+var is_chrome_firefox = document.location.protocol === 'chrome:' && document.location.host === 'mega' || document.location.protocol === 'mega:';
+var is_extension = is_chrome_firefox || document.location.href.substr(0,19) == 'chrome-extension://';
+var storage_version = '1'; // clear localStorage when version doesn't match
+var page = document.location.hash, l, d = false;
+
+function isMobile()
+{
+	if (is_chrome_firefox) return false;
+	var mobile = ['iphone','ipad','android','blackberry','nokia','opera mini','windows mobile','windows phone','iemobile','mobile safari','bb10; touch'];
+	for (var i in mobile) if (ua.indexOf(mobile[i]) > 0) return true;
+	return false;
+}
+
+function geoStaticpath(eu)
+{
+	if (!eu) {
+		try {
+			if (!sessionStorage.skipcdn) {
+				var cc = 'FR DE NL ES PT DK CH IT UK GB NO SE FI PL CZ SK AT GR RO HU IE TR VA MC SM LI AD JE GG UA BG LT LV EE AX IS MA DZ LY TN EG RU BY HR SI AL ME RS KO EU FO CY IL LB SY SA JO IQ BA CV PS EH GI GL IM LU MK SJ BF BI BJ BW CF CG CM DJ ER ET GA GH GM GN GN GW KE KM LR LS MG ZA AE ML MR MT MU MV MW MZ NA NE QA RW SD SS SL SZ TD TG TZ UG YE ZA ZM ZR ZW';
+				var cm = String(document.cookie).match(/geoip\s*\=\s*([A-Z]{2})/);
+				if (cm && cm[1] && cc.indexOf(cm[1]) == -1)
+					return 'https://g.cdn1.mega.co.nz/';
+			}
+		} catch(e) {
+			setTimeout(function() { throw e; }, 2100);
+		}
+	}
+	return 'https://eu.static.mega.co.nz/';
+}
+
+if (ua.indexOf('chrome') > -1 && ua.indexOf('mobile') == -1 && parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10) < 22) b_u = 1;
+else if (ua.indexOf('firefox') > -1 && typeof DataView == 'undefined') b_u = 1;
+else if (ua.indexOf('opera') > -1 && typeof window.webkitRequestFileSystem == 'undefined') b_u = 1;
+var apipath, staticpath = 'https://eu.static.mega.co.nz/';
+var myURL = window.URL || window.webkitURL;
+if (!myURL) b_u=1;
+
+if (!b_u) try
+{
+	if (is_chrome_firefox)
+	{
+		var Cc = Components.classes, Ci = Components.interfaces, Cu = Components.utils;
+
+		Cu['import']("resource://gre/modules/XPCOMUtils.jsm");
+		Cu['import']("resource://gre/modules/Services.jsm");
+		XPCOMUtils.defineLazyModuleGetter(this, "NetUtil", "resource://gre/modules/NetUtil.jsm");
+
+		(function(global) {
+			global.loadSubScript = function(file,scope) {
+				if (global.d) {
+					Services.scriptloader.loadSubScriptWithOptions(file,{
+						target : scope||global, charset: "UTF-8",
+						ignoreCache : true
+					});
+				} else {
+					Services.scriptloader.loadSubScript(file,scope||global);
+				}
+			};
+		})(this);
+
+		try {
+			var mozBrowserID =
+			[	Services.appinfo.name,
+				Services.appinfo.platformVersion,
+				Services.appinfo.platformBuildID,
+				Services.appinfo.OS,
+				Services.appinfo.XPCOMABI].join(" ");
+		} catch(e) {
+			var mozBrowserID = ua;
+		}
+
+		loadSubScript('chrome://mega/content/strg4.js');
+
+		if(!(localStorage instanceof Ci.nsIDOMStorage)) {
+			throw new Error('Invalid DOM Storage instance.');
+		}
+		d = !!localStorage.d;
+	}
+	if (typeof localStorage == 'undefined') b_u = 1;
+	else
+	{
+		var contenterror = 0;
+		var nocontentcheck = !!localStorage.dd;
+		if (localStorage.dd) localStorage.staticpath = location.protocol + "//" + location.host + location.pathname.replace(/[^/]+$/,'');
+		staticpath = localStorage.staticpath || geoStaticpath();
+		apipath = localStorage.apipath || 'https://eu.api.mega.co.nz/';
+	}
+}
+catch(e)
+{
+	if (!isMobile() || e.message !== 'SecurityError: DOM Exception 18') {
+		alert(
+			"Sorry, we were unable to initialize the browser's local storage, "+
+			"either you're using an outdated browser or it's something from our side.\n"+
+			"\n"+
+			"If you think it's our fault, please report the issue back to us.\n"+
+			"\n"+
+			"Reason: " + (e.message || e)+
+			"\nBrowser: " + (typeof mozBrowserID !== 'undefined' ? mozBrowserID : ua)
+		);
+		b_u = 1;
+	}
+}
+
+var bootstaticpath = staticpath;
+var urlrootfile = '';
+
+if (!b_u && is_extension)
+{
+	nocontentcheck=true;
+
+	if (is_chrome_firefox)
+	{
+		bootstaticpath = 'chrome://mega/content/';
+		urlrootfile = 'secure.html';
+		staticpath = 'https://eu.static.mega.co.nz/';
+		try {
+			loadSubScript(bootstaticpath + 'fileapi.js');
+		} catch(e) {
+			b_u = 1;
+			Cu.reportError(e);
+			alert('Unable to initialize core functionality:\n\n' + e + '\n\n' + mozBrowserID);
+		}
+	}
+	else /* Google Chrome */
+	{
+		bootstaticpath = chrome.extension.getURL("mega/");
+		urlrootfile = 'mega/secure.html';
+	}
+
+	Object.defineProperty(window, 'eval', {
+		value : function eval(code) {
+			throw new Error('Unsafe eval is not allowed, code: ' + String(code).replace(/\s+/g,' ').substr(0,60) + '...');
+		}
+	});
+}
+
+if (b_u) document.location = 'update.html';
+
+window.URL = window.URL || window.webkitURL;
+
+var ln ={}; ln.en = 'English'; ln.cn = '简体中文';  ln.ct = '中文繁體'; ln.ru = 'Pусский'; ln.es = 'Español'; ln.fr = 'Français'; ln.de = 'Deutsch'; ln.it = 'Italiano'; ln.br = 'Português Brasil'; ln.mi = 'Māori'; ln.vn = 'Tiếng Việt'; ln.nl = 'Nederlands'; ln.kr = '한국어';   ln.ar = 'العربية'; ln.jp = '日本語'; ln.pt = 'Português'; ln.he = 'עברית'; ln.pl = 'Polski'; ln.ca = 'Català'; ln.eu = 'Euskara'; ln.sk = 'Slovenský'; ln.af = 'Afrikaans'; ln.cz = 'Čeština'; ln.ro = 'Română'; ln.fi = 'Suomi'; ln.no = 'Norsk'; ln.se = 'Svenska'; ln.bs = 'Bosanski'; ln.hu = 'Magyar'; ln.sr = 'српски'; ln.dk = 'Dansk'; ln.sl = 'Slovenščina'; ln.tr = 'Türkçe';  ln.id = 'Bahasa Indonesia';  ln.hr = 'Hrvatski';  ln.el = 'ελληνικά'; ln.uk = 'Українська'; ln.gl = 'Galego'; ln.sr = 'српски'; ln.lt = 'Lietuvos'; ln.th = 'ภาษาไทย'; ln.lv = 'Latviešu'; ln.bg = 'български';  ln.mk = 'македонски'; ln.hi = 'हिंदी'; ln.fa = 'فارسی '; ln.ee = 'Eesti'; ln.ms = 'Bahasa Malaysia'; ln.cy = 'Cymraeg'; ln.be = 'Breton'; ln.tl = 'Tagalog'; ln.ka = 'ქართული';
+
+var ln2 ={}; ln2.en = 'English'; ln2.cn = 'Chinese';  ln2.ct = 'Traditional Chinese'; ln2.ru = 'Russian'; ln2.es = 'Spanish'; ln2.fr = 'French'; ln2.de = 'German'; ln2.it = 'Italian'; ln2.br = 'Brazilian Portuguese'; ln2.mi = 'Maori'; ln2.vn = 'Vietnamese'; ln2.nl = 'Dutch'; ln2.kr = 'Korean';   ln2.ar = 'Arabic'; ln2.jp = 'Japanese'; ln2.pt = 'Portuguese'; ln2.he = 'Hebrew'; ln2.pl = 'Polish'; ln2.ca = 'Catalan'; ln2.eu = 'Basque'; ln2.sk = 'Slovak'; ln2.af = 'Afrikaans'; ln2.cz = 'Czech'; ln2.ro = 'Romanian'; ln2.fi = 'Finnish'; ln2.no = 'Norwegian'; ln2.se = 'Swedish'; ln2.bs = 'Bosnian'; ln2.hu = 'Hungarian'; ln2.sr = 'Serbian'; ln2.dk = 'Danish'; ln2.sl = 'Slovenian'; ln2.tr = 'Turkish'; ln2.id = 'Indonesian'; ln2.hr = 'Croatian'; ln2.el = 'Greek'; ln2.uk = 'Ukrainian'; ln2.gl = 'Galician'; ln2.sr = 'Serbian'; ln2.lt = 'Lithuanian'; ln2.th = 'Thai'; ln2.lv = 'Latvian'; ln2.bg = 'Bulgarian'; ln2.mk = 'Macedonian'; ln2.hi = 'Hindi'; ln2.fa = 'Farsi'; ln2.ee = 'Estonian';  ln2.ms = 'Malaysian'; ln2.cy = 'Welsh'; ln2.be = 'Breton'; ln2.tl = 'Tagalog'; ln2.ka = 'Georgian';
+
+/**
+ * SJCL SHA-256 library which was converted to a string so it can be run by the web worker which hashes the files.
+ * Created by:
+ * 1) Downloading SJCL v1.0.0 release
+ * 2) Running './configure --without-all --with-sha256 --with-codecHex'
+ * 3) Running 'make' and 'make test'
+ * 4) Removing comments and whitespace (variable names remain unobfuscated)
+ * 5) Changing namespace from 'sjcl' to 'sjcl_sha256' so it does not conflict with the main SJCL library loaded in from the CDN
+ */
+var sjcl_sha256_js = 'var sjcl_sha256={cipher:{},hash:{},keyexchange:{},mode:{},misc:{},codec:{},exception:{corrupt:function(message){this.toString=function(){return"CORRUPT: "+this.message};this.message=message},invalid:function(message){this.toString=function(){return"INVALID: "+this.message};this.message=message},bug:function(message){this.toString=function(){return"BUG: "+this.message};this.message=message},notReady:function(message){this.toString=function(){return"NOT READY: "+this.message};this.message=message}}};if(typeof module!=="undefined"&&module.exports){module.exports=sjcl_sha256}sjcl_sha256.bitArray={bitSlice:function(a,bstart,bend){a=sjcl_sha256.bitArray._shiftRight(a.slice(bstart/32),32-(bstart&31)).slice(1);return(bend===undefined)?a:sjcl_sha256.bitArray.clamp(a,bend-bstart)},extract:function(a,bstart,blength){var x,sh=Math.floor((-bstart-blength)&31);if((bstart+blength-1^bstart)&-32){x=(a[bstart/32|0]<<(32-sh))^(a[bstart/32+1|0]>>>sh)}else{x=a[bstart/32|0]>>>sh}return x&((1<<blength)-1)},concat:function(a1,a2){if(a1.length===0||a2.length===0){return a1.concat(a2)}var out,i,last=a1[a1.length-1],shift=sjcl_sha256.bitArray.getPartial(last);if(shift===32){return a1.concat(a2)}else{return sjcl_sha256.bitArray._shiftRight(a2,shift,last|0,a1.slice(0,a1.length-1))}},bitLength:function(a){var l=a.length,x;if(l===0){return 0}x=a[l-1];return(l-1)*32+sjcl_sha256.bitArray.getPartial(x)},clamp:function(a,len){if(a.length*32<len){return a}a=a.slice(0,Math.ceil(len/32));var l=a.length;len=len&31;if(l>0&&len){a[l-1]=sjcl_sha256.bitArray.partial(len,a[l-1]&0x80000000>>(len-1),1)}return a},partial:function(len,x,_end){if(len===32){return x}return(_end?x|0:x<<(32-len))+len*0x10000000000},getPartial:function(x){return Math.round(x/0x10000000000)||32},equal:function(a,b){if(sjcl_sha256.bitArray.bitLength(a)!==sjcl_sha256.bitArray.bitLength(b)){return false}var x=0,i;for(i=0;i<a.length;i++){x|=a[i]^b[i]}return(x===0)},_shiftRight:function(a,shift,carry,out){var i,last2=0,shift2;if(out===undefined){out=[]}for(;shift>=32;shift-=32){out.push(carry);carry=0}if(shift===0){return out.concat(a)}for(i=0;i<a.length;i++){out.push(carry|a[i]>>>shift);carry=a[i]<<(32-shift)}last2=a.length?a[a.length-1]:0;shift2=sjcl_sha256.bitArray.getPartial(last2);out.push(sjcl_sha256.bitArray.partial(shift+shift2&31,(shift+shift2>32)?carry:out.pop(),1));return out},_xor4:function(x,y){return[x[0]^y[0],x[1]^y[1],x[2]^y[2],x[3]^y[3]]}};sjcl_sha256.codec.utf8String={fromBits:function(arr){var out="",bl=sjcl_sha256.bitArray.bitLength(arr),i,tmp;for(i=0;i<bl/8;i++){if((i&3)===0){tmp=arr[i/4]}out+=String.fromCharCode(tmp>>>24);tmp<<=8}return decodeURIComponent(escape(out))},toBits:function(str){str=unescape(encodeURIComponent(str));var out=[],i,tmp=0;for(i=0;i<str.length;i++){tmp=tmp<<8|str.charCodeAt(i);if((i&3)===3){out.push(tmp);tmp=0}}if(i&3){out.push(sjcl_sha256.bitArray.partial(8*(i&3),tmp))}return out}};sjcl_sha256.codec.hex={fromBits:function(arr){var out="",i,x;for(i=0;i<arr.length;i++){out+=((arr[i]|0)+0xF00000000000).toString(16).substr(4)}return out.substr(0,sjcl_sha256.bitArray.bitLength(arr)/4)},toBits:function(str){var i,out=[],len;str=str.replace(/\s|0x/g,"");len=str.length;str=str+"00000000";for(i=0;i<str.length;i+=8){out.push(parseInt(str.substr(i,8),16)^0)}return sjcl_sha256.bitArray.clamp(out,len*4)}};sjcl_sha256.hash.sha256=function(hash){if(!this._key[0]){this._precompute()}if(hash){this._h=hash._h.slice(0);this._buffer=hash._buffer.slice(0);this._length=hash._length}else{this.reset()}};sjcl_sha256.hash.sha256.hash=function(data){return(new sjcl_sha256.hash.sha256()).update(data).finalize()};sjcl_sha256.hash.sha256.prototype={blockSize:512,reset:function(){this._h=this._init.slice(0);this._buffer=[];this._length=0;return this},update:function(data){if(typeof data==="string"){data=sjcl_sha256.codec.utf8String.toBits(data)}var i,b=this._buffer=sjcl_sha256.bitArray.concat(this._buffer,data),ol=this._length,nl=this._length=ol+sjcl_sha256.bitArray.bitLength(data);for(i=512+ol&-512;i<=nl;i+=512){this._block(b.splice(0,16))}return this},finalize:function(){var i,b=this._buffer,h=this._h;b=sjcl_sha256.bitArray.concat(b,[sjcl_sha256.bitArray.partial(1,1)]);for(i=b.length+2;i&15;i++){b.push(0)}b.push(Math.floor(this._length/0x100000000));b.push(this._length|0);while(b.length){this._block(b.splice(0,16))}this.reset();return h},_init:[],_key:[],_precompute:function(){var i=0,prime=2,factor;function frac(x){return(x-Math.floor(x))*0x100000000|0}outer:for(;i<64;prime++){for(factor=2;factor*factor<=prime;factor++){if(prime%factor===0){continue outer}}if(i<8){this._init[i]=frac(Math.pow(prime,1/2))}this._key[i]=frac(Math.pow(prime,1/3));i++}},_block:function(words){var i,tmp,a,b,w=words.slice(0),h=this._h,k=this._key,h0=h[0],h1=h[1],h2=h[2],h3=h[3],h4=h[4],h5=h[5],h6=h[6],h7=h[7];for(i=0;i<64;i++){if(i<16){tmp=w[i]}else{a=w[(i+1)&15];b=w[(i+14)&15];tmp=w[i&15]=((a>>>7^a>>>18^a>>>3^a<<25^a<<14)+(b>>>17^b>>>19^b>>>10^b<<15^b<<13)+w[i&15]+w[(i+9)&15])|0}tmp=(tmp+h7+(h4>>>6^h4>>>11^h4>>>25^h4<<26^h4<<21^h4<<7)+(h6^h4&(h5^h6))+k[i]);h7=h6;h6=h5;h5=h4;h4=h3+tmp|0;h3=h2;h2=h1;h1=h0;h0=(tmp+((h1&h2)^(h3&(h1^h2)))+(h1>>>2^h1>>>13^h1>>>22^h1<<30^h1<<19^h1<<10))|0}h[0]=h[0]+h0|0;h[1]=h[1]+h1|0;h[2]=h[2]+h2|0;h[3]=h[3]+h3|0;h[4]=h[4]+h4|0;h[5]=h[5]+h5|0;h[6]=h[6]+h6|0;h[7]=h[7]+h7|0}};';
+
+function evalscript(text)
+{
+	var script = document.createElement('script');
+	script.type = "text/javascript";
+	document.getElementsByTagName('head')[0].appendChild(script);
+	script.text = text;
+}
+
+function evalscript_url(jarray)
+{
+	try
+	{
+		var blob = new Blob(jarray, { type: "text/javascript" });
+	}
+	catch(e)
+	{
+		window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+		var bb = new BlobBuilder();
+		for (var i in jarray) bb.append(jarray[i]);
+		var blob = bb.getBlob('text/javascript');
+	}
+	var script = document.createElement('script');
+	script.type = "text/javascript";
+	document.getElementsByTagName('head')[0].appendChild(script);
+	var url = window.URL.createObjectURL(blob);
+	script.src = url;
+	return url;
+}
+
+if (!nocontentcheck)
+{
+	if (window.URL) evalscript_url([sjcl_sha256_js]);
+	else evalscript(sjcl_sha256_js);
+}
+
+var sh = [];
+var sh1 = [
+'lang/af_75a23c0cfd3ccc17c897620e32cb7e61a514b28659c8ec72b2e6009a14dc451b.json',
+'lang/ar_775f29088cf4da82c9c7c1f75ce8ba42ffd3c3bddef81359c69272a037ebc7ab.json',
+'lang/be_379e9663874bb61a7e3d66e7639471fddf00bc17cc850adb33abd52953891fc2.json',
+'lang/bg_834c9ca8e737aff856a4e0f9ebbe19a333f9d824053257611a96cf0d23b5a4e7.json',
+'lang/br_eee6c5b28646bff8999c9879366230276f9613d92f281dda6c500ef64f787e8e.json',
+'lang/bs_8bde0276d8aa8c75938a57825d2bee26d4e9f399dd89f3481c2d10a2ad584176.json',
+'lang/ca_2755b0a09ad528fd5ee0511e234ff48402c05eb353ad82ec3b7d170a40cf2220.json',
+'lang/cn_d33296b7013e4922a6b8a0917c946466333e5f6d9de7fdb3d36cbde6ad05e1fc.json',
+'lang/ct_e06802c6945e248d74c507b6d946dcac2cb25db65dac53f3fe0750bd42f736fc.json',
+'lang/cy_3424d0c1a51411f209cc6c2333eafe3bc6dd831842b28100ce2237415f36112f.json',
+'lang/cz_e224dfcab2650645c27ae773e351ec9aeef790c5363c5d34ccb75387b63bd528.json',
+'lang/de_075ce81868d38a33df61618c92a923be719524f966d5ccf830da7f99c82e1d6c.json',
+'lang/dk_22e2e9505f85cc1dc55fd60705e77af36908e8591d0d482d7a12eea97a10bcdb.json',
+'lang/ee_c8195939d3ce1d48d851b5681d2b6243a356dbac13f55d01f3e5f4453cdb203c.json',
+'lang/el_79c7712aee528326bb461aee975c4b0cfe9affde941c7a3a1c070da2da899b36.json',
+'lang/en_45de1f15b09af6daa02857a65579feb733b767b76d1d4d2b182add50f0333584.json',
+'lang/es_f6783ba33b59e86ee41a4fbe16426ab20f1bebc671806d2e56e03c859df72ef1.json',
+'lang/et_ad5f738a93c8456a872a4909474d776b194866cae8a937e45b5f7b2ca11923c3.json',
+'lang/eu_4062582f1b3083cdb8232238cfb49af99c4cbf8a65f68c56adfa10a3d1132d07.json',
+'lang/fa_14927cff3ff16c66fef0a5dcf1173b07b79461782e95ad56222660071cfc08f3.json',
+'lang/fi_002715b5dee73566a6a1aefdd6af8ba0c40d481c701f84c843e91fa076b2ceff.json',
+'lang/fr_f3583678571559770ba8af122705cf1d396bc88eeca8b2f727c9e3b91e0560fd.json',
+'lang/gl_9668a9a1124b7536f37333944f2b1e164cf1c2c37cbc6851400b0e17b6eeeab0.json',
+'lang/he_513cbeddf5b6a46614c808b4fbb14f8c21de52b9e26ae1561395f3d7d5147380.json',
+'lang/hi_5da4a5c9da6f99c1e3b4779dc58bdac5b74a62aed5a13dfc7669ccb802e297e7.json',
+'lang/hr_ade0eb7b74b8edbda5d8a93757dc1c16834865da52629eb6193af8ecfc84c806.json',
+'lang/hu_06f90aa0225cc7bbefd25eb98733bfbd539b98ff3bf6c8de9276c3d022c29888.json',
+'lang/id_93d8c6898492ae5ae27827e02f2935646abbc476e1df5948077d12746537d6e3.json',
+'lang/it_467c35ef11a45db4c4dea5da90512358eb7de329e752eb3aaddf45962b6022f3.json',
+'lang/jp_8fe77e908dfbbba2aeee1bad4a72df41f7a0bf746853ba6783ba72d623c00e0a.json',
+'lang/ka_6fdde107e73257010b6928d0b1a930aa632021c9fdb773c02905e05e6be39c36.json',
+'lang/kr_9baaf190f7ae20d5b8a9af922d2ab2653fc35b1caa50eba578ee979890357a57.json',
+'lang/lt_e2d4222fab149c7be1d54cb18a1f43f4a42f0d5fff1ef7e1144d6effeae81739.json',
+'lang/lv_b47558b3f69cd37af7cbcc4b70be7939807e828a3bca57d32c4933063e41a6a4.json',
+'lang/mi_db8aa87873cd2130b63379eed48957bfe2cce756c4fffb7fffcbcc1c70109405.json',
+'lang/mk_d5b992fc013a30413736c0483d1d60eb88640f82c54b2bb16eea37398259575e.json',
+'lang/ms_72f1817e1149100ed3a2d3ab7268318c9a751352cc8e66c36fabc60a1ef17865.json',
+'lang/nl_e1938163176a5baebf57816b5296bab8fd1dc0ac0e9503e041719fd76ac8575a.json',
+'lang/no_7f14a631d47e6b1c3253440c42c2ddbbe81187096b6fdb123722339d6777d9b5.json',
+'lang/pl_42b4c3c8190d81a69119613dd3824ac2b16f08dbe9963a6bdbec1bfdc323a2ca.json',
+'lang/pt_92a60cbbe07d457835fad6e67d9fd007c3a6d0a0dd0830a1c299a5f2bf2b97ab.json',
+'lang/ro_447cd8a818bab02a64aafdf1e2d8cecce5ba8a9a220d6229b0a07f0454ff5b73.json',
+'lang/ru_d2690c9563e14a72fa6544516addc27a15bcf03ecf02c2f728c82af0938539e3.json',
+'lang/se_135718491fc183ac0dfe3934ec7ebaead4acb0da5dc6f42b5a48f27f3565c254.json',
+'lang/sk_94351661d4f499107c3365fee63add29342c71d58449be6f89f6e8ced6d719f2.json',
+'lang/sl_3cf3c6b092571e0c9dfebee27e85bb1695ccefa47caf3a2397a23e33bb5a7fa3.json',
+'lang/sq_91c6d6ce11268bf92f565f0c95a290c04cf87cb5ffcc43c709f4ced31b3c56d3.json',
+'lang/sr_ba4ec03b828d8943e05a933735170532a5fc3370c976c7d1d63844f202a6e487.json',
+'lang/th_b20df42c72e2c014fda9b554a9a747e27c0eb899ff1935cde0a181bf23731126.json',
+'lang/tl_5da4a5c9da6f99c1e3b4779dc58bdac5b74a62aed5a13dfc7669ccb802e297e7.json',
+'lang/tr_d5c8c8012f23742c87f2e413d16e08f8615ed53bd7effc82c371105e6cbdf2d1.json',
+'lang/uk_0130491430f01695942d8bfd379984a36ac27fc3a72f09dbe8330059ba2c0775.json',
+'lang/vn_c3d58d9985cf486739790aea10c3c44e39295ec4c669dbb2a262167f58b71fc6.json',
+'sjcl_f5c2f5a7f040b9ed1550f450892e7dfb3772d2ea7755f0d006d0c26268c601cb.js',
+'js/asmcrypto_4a67df75e97fdc5b4aef27211244204c3ea9fcba88071812cc75c6b599db1942.js',
+'js/tlvstore_a1b2d8e22899978ecd226997a8fb06a66a5245f265ba44557d580c6ad698dce0.js',
+'js/crypto_2a1a5ad568425af08789db44b30ddfbb9f5c432b506b71e61d22ac57980e7918.js',
+'js/jsbn_47cfb330b7bcb17d2de237dce4437a625ab2b7d577a08c6b8e30c4523fb8f96d.js',
+'js/jsbn2_b0a29d8f0677eca6f8fc03ee1286d53e804ec1cc19593beed60530a7b348af67.js',
+'js/jodid25519_ee71a4f3b3173da4166302e956fefb664914a28024a005e6b84d028c8eddf462.js',
+'js/user_f39d9aa78ac7cc9ca20cc4189493299ca5f50ae923af92ac16c01861450ab046.js',
+'js/hex_b17082a4b357114a69edcc5a9df78e52c3d2f4f8089e3d723959e83c24497e1e.js',
+'js/functions_523a75c61978977d00941a55c4b3aab998ee732b7f4f13b532e80b4bb9537e7e.js',
+'js/mouse_e1ebdb6b1c8af2efe744ccdb2e55ae91c345d6219651cae3f08b27fd6da0b72a.js',
+'js/jquery-min-1.8.1_1703c80d9f524bc30e305c7bbea63639b3044f21546faddc38a34fe6ed61a325.js',
+'js/jquery-ui_14e1502064ddb95ddafd595e051d39024b83276485425e11c661390204e17456.js',
+'js/base64_5291bda10d18c780cc0d713d7b438db8a7ddbc79c23a81a67c07715f48afdca7.js',
+'js/filedrag_8dcb4a087e8979860284d3690d93110e61c7a10d64b0851571eb7fc18d9ee187.js',
+'js/jquery.remove_d05699746cc3cd78180575ff929e3a082d109d328d29295af48fe85d1666c24f.js',
+'js/jquery.mousewheel_29d564fe0f5d82fe15a0d9c36156b5848a57ead649e4672721ff7a5caff5ca72.js',
+'js/jquery.jscrollpane.min_c3d9d4df41053b355353255a3603ae8b592a4cbacba0bf09b5b97dde804626c1.js',
+'js/mDB_cbd7f115b9e491c9d2d5f7cf3bb3d42caa933f262255709b3f64e565db783fc6.js',
+'js/thumbnail_b7a143f79864d815630ce42899749d4d1d7706b5fd1fb6085cf34dab3c3731fb.js',
+'js/exif_22f493813696bbb08eff0066bb1d67ddc6b047f1adc70f2f2c961833deb3a62c.js',
+'js/megapix_0afbd161eb9a547c0199b41d429ba8117ff19ccd073427f0053727c69669497f.js',
+'js/smartcrop_e4c2c965863215bda67d28cb5016d0fc4568d0a9335977db01dd690a2957c2d2.js',
+'js/mega_c9f4a3a8f1dcf9af49717ff789d96136694abfd7812d8c89b011d8e78140086b.js',
+'js/chat_ac1ea318deb231d95293cd72b712c4ce6e01fffa05abda4bdcc51dc3fc1e10ec.js',
+'js/fm_46ccd51c1090990b1793cdbcfddc4d34df7efb70a54e697e4b8aef118e07f38f.js',
+'js/filetypes_cf5380c785dbd3cd3f8424a32d6e25f074bfe88164509b31bd5bdc977ac0bc30.js',
+'js/miniui_73c130c8a23cb27ad2385e80d2a195afdd9edc4f9d28b486c9fcf11c9634cbb8.js',
+'js/dcraw.min_7d65ffecb3fdd6d8250a4a665e1f812fbed79dbb22d0c1c5d79e2cfbe34df2b8.js',
+'js/xhr_32a446723c6a539630fb205ae71a4201c035b0c93d9862ce9bfaa7a5510b2893.js',
+'js/events_4901b0646201d192f83fa7cad6de7563e1ee1b300aade39192a3663bc6184c02.js',
+'js/queue_a9703d34b36810430a7a04ef768d419990b4262d09f29e062d15dbe4d21fa190.js',
+'js/downloadChrome_490bd6760baaffd83a413cc447c71db57d47147f1ed1dd09c39a07ce37fd720f.js',
+'js/downloadFirefox_323eb42286ed9a9c9c5d4461deb9cb9fb3cf0e7aeb35942916e210e85cbcbfb4.js',
+'js/downloadMemory_2f080666f3769afa3f093f201478246366cb6a544a875f416333fe5543548f2d.js',
+'js/downloadFlash_76b36207c2d1e9cde254ea8b3803218851d9043dbf12e965fb1613fa2977db08.js',
+'js/downloader_d0d693245dffeb3de762409d5b97f589fac2e61a8fe07bd50e0589086b6eace3.js',
+'js/download2_a3922dd18d642a05dbb508945b61d5a94e2e9619c7f860119062b487ef71cb21.js',
+'js/upload2_37773551a45abd56bd9d942887beb749cedd25199c672f19a533328efd37ad87.js',
+'index_5a642e4ac18a0094271eb0619eade872f53d5eb9dc79c1c2b587a73500f10f7e.js',
+'html/start_a57a71c73c470a551db272c232ccab4dc047a9dc78007a95f5cf3dfe1115fa29.html',
+'html/megainfo_5eff6206908dcceb4204f6ba63f3631c2b6914b8f1e85af8f152b2348faea653.html',
+'html/js/start_84969372ed2a727dbe8780c4f70dac9b6ce568d38a4f6a25bc722949f56e6879.js',
+'html/bottom2_fd0e64015118938e121d839dd634233edf2c78c73fa7381bacf0aec8a21d44c0.html',
+'html/key_181e79302eb4c635814cfced0ee9506a02279d8c512ba60e71a59833d6bd6d69.html',
+'html/js/key_e8877e4d272623a4da173c7e290d888b46cb68a49aa5dbaaa70058458957e761.js',
+'html/pro_2af9e1ada6cbd1c99d4bc718304ebb1b423e09f298b8528f451abcdec9805ce9.html',
+'html/js/pro_c9856df53e2bf7f3cbe590f523b013d5ebaa840b555818fae45f41df3836bb80.js',
+'html/login_84aa3eb03597123a2e546f41aa9139639e537e6706c910d146e8fe42843e59b3.html',
+'html/js/login_47ab473795a5aab36b2151a9bc32c811e9328c99d71b934a11da124b88d694ff.js',
+'html/fm_bf2088a069a733439e75d744ebb195057a9f6db2910af20fa735e2ced20c7255.html',
+'html/top_c7027d40808ddaa51e1c7b0330381a8ccbc53c59ebf35d8a3045c7003b2106f4.html',
+'js/notifications_0e81ea69eb9ebffbb1af15b7369b41e5268643bea52f2e976e3ce6ffd99bd2ba.js',
+'css/style_279f6a235e30ba6b9017530efb9d8b25c05cc6003bcb4cdf757dc42c95733086.css',
+'js/avatar_550125f2dbadf9c573a34cd75f3a8f617553157238af6d29e0adb330c99b7824.js',
+'js/countries_0c4183c0e98577df85d08dbe1b497eb862705389167660a1e63a3d571f2ecbd5.js',
+'html/dialogs_44528aefde6a59e8a20244edf0a48068d5acb2569b92164621bb83c7e1aa0acd.html',
+'html/transferwidget_196612130f1979a7b8677ee52d8db94bfbcee14a183ab6bc20ef2929e2b1dfc6.html',
+'js/checkboxes_67c702c459917c4028b74b378568746f954de95403ec2d4f35621b2d24cc28b9.js',
+'js/Int64_16230798e506f508f39fbed9a58392097bb5201a385735fbd0a3fa80fab6ef54.js',
+'js/zip64_e7de08f2755c1ccaf69be6e9d4f213bc7a4294f0fd51db2251781570ef3c3ef3.js',
+'js/analytics_c1e9bbcc6a9cf674b497204da7f070daff390bc70fabaf9544f8a5de673f781e.js',
+'html/about_103ce9f3fcb746d17a2cb8330f34cdaac3a8249fd961321276883f12b184a4ae.html',
+'html/blog_053247db78dccbaa1880d1e81fdb5928b297f512ed88fdb57795210a6781d30a.html',
+'html/js/blog_2b97e097fe0330c3934c94dbb7a86463b66fe9c11556d3f2bd479c14ce681f46.js',
+'html/blogarticle_c9689df02811c591ca53918f676e48791bd980bf5043d98b09dddcc29a43606d.html',
+'html/js/blogarticle_c5a5ca5b8588a609e9dd6da0f8a65e3c7aaeda7b6739fa14ee8f222cb2c7d87f.js',
+'html/register_2632abbc8c81eb31f3bfd7307315c9da38208526abbeaeeab7a63eaceeb61cb5.html',
+'html/js/register_a1d1357f36a45f2dc29100419ffdfe8032849aea0878caf094f573331c634079.js',
+'html/resellers_cc56d278539fd9db4dcab6cfc9fdf6daa965d68ae900700a62767aceda92008a.html',
+'html/download_e7a15367c4e05688dd1dfaab2aa7d0c3116eacd5f8208c25a8318a1ddf24131d.html',
+'html/js/download_0818e5c7f0a7502e5fbba7e3c40e6b11c4ef809ddec639084b3e8d0a689c8ec3.js',
+'html/copyright_b8e1d306c1d9b5db898a2532dc4b4b6977efb6b108d1fc73914f0c1bc5131361.html',
+'html/copyrightnotice_10f03774b4bd9fedd14abbe1db46ed9da9741386d57bddcfa05afc8b731fa33b.html',
+'html/js/copyrightnotice_579ce7b30923f13f90ab62c03d793718c4ce4603c478b70f9218e76c6dcc067b.js',
+'html/privacy_3dde250a1db95780a06e438614763f97f5b763ff777cc7711335e7cebff370de.html',
+'html/terms_c269b548b9047cfb574e1375ac591964dcff2bad16dab66ac8f81e34c1562e92.html',
+'html/backup_0569a87f947878826239b750189536cdc171f4dd9eb0bab73ff1bb44a574edcb.html',
+'html/js/backup_51cdd97178e10b7fc2f26c02192daee09ef9e1ab83f4a6c9df33f710278f259d.js',
+'html/reset_24360d4c68810c2b23f02166e2f819e3ccf87df91751b5715486917813627be0.html',
+'html/js/reset_72d01009fb3e2c5ef9bad69d2d99240c2bdf209f04fad8a1e386a473725c1ff0.js',
+'js/filesaver_7ff5a45cc7810de1757a43481226a7e071817b59ea08d55847ed45a43de4fee5.js',
+'html/recovery_c9d50d454e10aa28927d5a17b0f4e5503d0248658fabfe9a5358081307252df0.html',
+'html/js/recovery_4a4a62afaa2bad9c198570ff0d60266c1afb1a8a5594c88d4e682a9ca7ef314e.js',
+'html/credits_394f9496da966eaea54a97d90a49d43dd881bd7f741b0c9acac86ee93d245931.html',
+'html/takedown_321cf3a95cfd074e89169905747b0afde8d32baf97f100e383e586d11aa0754a.html',
+'html/dev_b25cfc7bcfc9d087c80dce752e2219bda86e85ea0a802af36b6c7fbbec3ed1a6.html',
+'js/arkanoid_fa96c8d5bcecf7d54de1387be20fc0cd186fbbc60f8a8c9f75d3eb0c304a7f12.js',
+'html/js/dev_5d222c6c85aed32eb285373b5ff9e418f40a9b8df57a686e61520dc14f99c32e.js',
+'html/sdkterms_9a8d2b35b8f6d727e2ffbd603d4fa11f11f11c2f18f6c6964bbd6d7f3a4590ee.html',
+'html/help_e24239356fd47fcc928d3e85d9e8701430a0224c2591546b21962d34f5b0b3f3.html',
+'html/js/help_2a83a2fdbf0b5eaca3293dc7912b050d4ac3145e3176c64f29756b7599fa6459.js',
+'html/firefox_2cb3eaf6e4e4a9279888112a84dae7b3697b02ed97ef1ba215c8b22423a87fc8.html',
+'html/sync_8cc2a5010873eb28ed186df8d47986ba74105b4db6eceb41deebdebd46848aa1.html',
+'html/js/sync_8fe04785e2ea5b11fcb5182b727e3dbbd55e652961eb8b0e9167c56651c8ef1e.js',
+'html/mobile_9611bfb14621688e5449058b8813581c21fe971609acdd670788623686009240.html',
+'html/affiliates_8101a9a1189c32d6ce2c2d255440bc0a10ece014c53ef6d24b2485d5beba998e.html',
+'html/js/affiliate_3197c37d89bedcd6d7995e6c2899e7a182fa6f6465b13efa16fb004cfd45364c.js',
+'html/affiliateterms_47a2cc5c2ad489b5372db22b2b523380e872c66bc9e1593366ac90e804d0dbbf.html',
+'html/affiliatesignup_98d7c79818b9bb07cb9e770394eefd80e8469c76757a14a037220d389b9e1103.html',
+'html/js/affiliatesignup_aec3b7e3ccdb2048f1cc5b11dccac8cd5b3c478604c72b6ff2c45c5e91c9648d.js',
+'html/affiliatemember_5f79a9ab12b3d89f5f2dad5743a14bba4ba67e45bb071dbcd8726afe985a25fb.html',
+'html/js/affiliatemember_6f4d296921b3250de3f0af1c957c102451284281fa7db5a4b70576f430405f12.js',
+'html/contact_e69c5a94c53841fbdf8d34f036a90c994020d13656d5fe7fc7b3b139aacfe9e1.html',
+'html/privacycompany_a7fd63b178473b094bfde309bd891c49c66a8635c90116f4f70e6aebe6e06b01.html',
+'html/chrome_911f323d5b92285aeaa66986c411293dce0fd333e755719ba16b7e30c251adf9.html',
+'js/zxcvbn_b94f9f08849da3d82c8231dbafe71780a31d77b0cac6a399a740cdb2607f4c2e.js'
+];
+
+
+/**
+ * Check that the hexadecimal hash of the file from the worker thread matches the correct one created at deployment time
+ * @param {String} hashFromWorker A hexadecimal string
+ * @param {String} fileName The file name with the SHA-256 hash appended at the end
+ * @returns {Boolean}
+ */
+function compareHashes(hashFromWorker, fileName) {
+
+    // Retrieve the SHA-256 hash that was appended to the file name
+    var startOfHash = fileName.lastIndexOf('_') + 1;
+    var endOfHash = fileName.lastIndexOf('.');
+    var hashFromDeployment = fileName.substring(startOfHash, endOfHash);
+
+    if (hashFromWorker === hashFromDeployment) {
+        //console.log('Hash match on file: ' + fileName + '. Hash from worker thread: ' + hashFromWorker + ' Hash from deployment script: ' + hashFromDeployment);
+        return true;
+    }
+    else {
+        console.error('Hash mismatch on file: ' + fileName + '. Hash from worker thread: ' + hashFromWorker + ' Hash from deployment script: ' + hashFromDeployment);
+        return false;
+    }
+}
+
+function init_storage ( storage ) {
+    var v = storage.v || 0,
+        d = storage.d,
+        dd = storage.dd,
+        sp = storage.staticpath;
+
+    // Graceful storage version upgrade
+    if ( v == 0 ) {
+        // array of limbs -> mpi-encoded number
+        function b2mpi (b) {
+            var bs = 28, bm = (1 << bs) - 1, bn = 1, bc = 0, r = [0], rb = 1, rn = 0;
+            var bits = b.length * bs;
+            var n, rr='';
+
+            for ( n = 0; n < bits; n++ ) {
+                if ( b[bc] & bn ) r[rn] |= rb;
+                if ( (rb <<= 1) > 255 ) rb = 1, r[++rn] = 0;
+                if ( (bn <<= 1) > bm ) bn = 1, bc++;
+            }
+
+            while ( rn && r[rn] == 0 ) rn--;
+
+            bn = 256;
+            for ( bits = 8; bits > 0; bits-- ) if ( r[rn] & (bn >>= 1) ) break;
+            bits += rn * 8;
+
+            rr += String.fromCharCode(bits/256)+String.fromCharCode(bits%256);
+            if ( bits ) for ( n = rn; n >= 0; n-- ) rr += String.fromCharCode(r[n]);
+            return rr;
+        }
+
+        if ( storage.privk ) {
+            // Upgrade key format
+            try {
+                var privk = JSON.parse(storage.privk), str = '';
+                for ( var i = 0; i < privk.length; i++ ) str += b2mpi( privk[i] );
+                storage.privk = btoa(str).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+                v++;
+            }
+            catch ( e ) {
+                console.error( e );
+            }
+        }
+        else {
+            v++;
+        }
+
+        storage.v = v;
+    }
+    // if ( v == 1 ) { ... }
+    // if ( v == 2 ) { ... }
+    // ... and so on
+
+    // Or upgrade hard when graceful method isn't provided
+    if ( v != storage_version ) {
+        storage.clear();
+        storage.v = storage_version;
+        if ( d ) storage.d = d;
+        if ( dd ) storage.dd = dd;
+        if ( sp ) storage.staticpath = sp;
+    }
+
+    return storage;
+}
+
+var androidsplash = false;
+var m = false;
+var seqno = Math.ceil(Math.random()*1000000000);
+if (isMobile() || (typeof localStorage !== 'undefined' && localStorage.mobile))
+{
+	var tag=document.createElement('meta');
+	tag.name = "viewport";
+	tag.content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('meta');
+	tag.name = "apple-mobile-web-app-capable";
+	tag.content = "yes";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('meta');
+	tag.name = "apple-mobile-web-app-status-bar-style";
+	tag.content = "black";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('link');
+	tag.rel = "apple-touch-icon-precomposed";
+	tag.sizes = "144x144";
+	tag.href = staticpath + "images/mobile/App_ipad_144x144.png";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('link');
+	tag.rel = "apple-touch-icon-precomposed";
+	tag.sizes = "114x114";
+	tag.href = staticpath + "images/mobile/App_iphone_114x114.png";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('link');
+	tag.rel = "apple-touch-icon-precomposed";
+	tag.sizes = "72x72";
+	tag.href = staticpath + "images/mobile/App_ipad_72X72.png";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('link');
+	tag.rel = "apple-touch-icon-precomposed";
+	tag.href = staticpath + "images/mobile/App_iphone_57X57.png";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	var tag=document.createElement('link');
+	tag.rel = "shortcut icon";
+	tag.type = "image/vnd.microsoft.icon";
+	tag.href = "https://mega.co.nz/favicon.ico";
+	document.getElementsByTagName('head')[0].appendChild(tag);
+	m=true;
+}
+var silent_loading=false;
+
+if (m)
+{
+	var app,mobileblog,android;
+	var link = document.createElement('link');
+	link.setAttribute('rel', 'stylesheet');
+	link.type = 'text/css';
+	link.href = staticpath + 'css/mobile-app_6c27e728b012cfdaf3e3d1f527ca234ca72728810e47e6907ecadd98c79fcb74.css';
+	document.head.appendChild(link);
+	document.body.innerHTML = '<div class="main-scroll-block"> <div class="main-content-block"> <div class="free-green-tip"></div><div class="main-centered-bl"><div class="main-logo"></div><div class="main-head-txt" id="m_title"></div><div class="main-txt" id="m_desc"></div><a href="" class="main-button" id="m_appbtn"></a><div class="main-social hidden"><a href="https://www.facebook.com/MEGAprivacy" class="main-social-icon facebook"></a><a href="https://www.twitter.com/MEGAprivacy" class="main-social-icon twitter"></a><div class="clear"></div></div></div> </div><div class="scrolling-content"><div class="mid-logo"></div> <div class="mid-gray-block">MEGA provides free cloud storage with convenient and powerful always-on privacy </div> <div class="scrolling-block-icon encription"></div> <div class="scrolling-block-header"> End-to-end encryption </div> <div class="scrolling-block-txt">Unlike other cloud storage providers, your data is encrypted & decrypted during transfer by your client devices only and never by us. </div> <div class="scrolling-block-icon access"></div> <div class="scrolling-block-header"> Secure Global Access </div> <div class="scrolling-block-txt">Your data is accessible any time, from any device, anywhere. Only you control the keys to your files.</div> <div class="scrolling-block-icon colaboration"></div> <div class="scrolling-block-header"> Secure Collaboration </div> <div class="scrolling-block-txt">Share folders with your contacts and see their updates in real time. Online collaboration has never been more private and secure.</div> <div class="bottom-menu full-version"><div class="copyright-txt">Mega Limited ' + new Date().getFullYear() + '</div><div class="language-block"></div><div class="clear"></div><iframe src="" width="1" height="1" frameborder="0" style="width:1px; height:1px; border:none;" id="m_iframe"></iframe></div></div></div>';
+	if (window.location.hash.substr(1,4) == 'blog') mobileblog=1;
+	if (ua.indexOf('windows phone') > -1)
+	{
+		app='zune://navigate/?phoneappID=1b70a4ef-8b9c-4058-adca-3b9ac8cc194a';
+		document.body.className = 'wp full-mode supported';
+		document.getElementById('m_desc').innerHTML = 'Free 50 GB - End-to-end encryption';
+	}
+	else if (ua.indexOf('android') > -1)
+	{
+		app='https://play.google.com/store/apps/details?id=nz.mega.android';
+		document.body.className = 'android full-mode supported';
+		android=1;
+	}
+	else if (ua.indexOf('bb10') > -1)
+	{
+		app='http://appworld.blackberry.com/webstore/content/46810890/';
+		document.body.className = 'blackberry full-mode supported';
+		document.getElementById('m_desc').innerHTML = 'Free 50 GB - End-to-end encryption';
+	}
+	else if (ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1)
+	{
+		// http://whatsmyuseragent.com/Devices/iPhone-User-Agent-Strings
+		// http://www.enterpriseios.com/wiki/Complete_List_of_iOS_User_Agent_Strings
+		app='https://itunes.apple.com/app/mega/id706857885';
+		document.body.className = 'ios full-mode supported';
+		document.getElementById('m_desc').innerHTML = 'Free 50 GB - End-to-end encryption';
+	}
+	else document.body.className = 'another-os full-mode unsupported';
+
+	if (app)
+	{
+		document.getElementById('m_appbtn').href = app;
+		document.getElementById('m_title').innerHTML = 'Install the free MEGA app';
+	}
+	else
+	{
+		document.getElementById('m_title').innerHTML = 'A dedicated app for your device will be available soon.';
+		document.getElementById('m_desc').innerHTML = 'Follow us on Twitter or Facebook for updates.';
+	}
+	if (window.location.hash.substr(1,1) == '!' || window.location.hash.substr(1,2) == 'F!')
+	{
+		var i=0;
+		if (ua.indexOf('windows phone') > -1) i=1;
+
+		if (app)
+		{
+			document.getElementById('m_title').innerHTML = 'Install the free MEGA app to access this file from your mobile';
+			document.getElementById('m_appbtn').href += '&referrer=link';
+		}
+		if (ua.indexOf('chrome') > -1)
+		{
+			setTimeout(function()
+			{
+				if (confirm('Do you already have the MEGA app installed?')) document.location = 'mega://' + window.location.hash;
+			},2500);
+		}
+		else document.getElementById('m_iframe').src = 'mega://' + window.location.hash.substr(i);
+	}
+	else if (window.location.hash.substr(1,7) == 'confirm' || window.location.hash.substr(1,7) == 'account')
+	{
+		var i=0;
+		if (ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1 || ua.indexOf('windows phone') > -1) i=1;
+		if (ua.indexOf('chrome') > -1) window.location ='mega://' + window.location.hash.substr(i);
+		else document.getElementById('m_iframe').src = 'mega://' + window.location.hash.substr(i);
+	}
+	if (mobileblog)
+	{
+		document.body.innerHTML = '';
+		var script = document.createElement('script');
+		script.type = "text/javascript";
+		document.head.appendChild(script);
+		script.src = 'https://mega.co.nz/blog.js';
+	}
+}
+else if (page == '#android')
+{
+	document.location = 'https://play.google.com/store/apps/details?id=nz.mega.android';
+}
+else
+{
+	if (!b_u)
+	{
+		if (typeof console == "undefined") { this.console = { log: function() {}, error: function() {}}; }
+		d = localStorage.d || 0;
+		var jj = localStorage.jj || 0;
+		var languages = {'en':['en','en-'],'es':['es','es-'],'fr':['fr','fr-'],'de':['de','de-'],'it':['it','it-'],'nl':['nl','nl-'],'pt':['pt'],'br':['pt-br'],'dk':['da'],'se':['sv'],'fi':['fi'],'no':['no'],'pl':['pl'],'cz':['cz','cz-'],'sk':['sk','sk-'],'sl':['sl','sl-'],'hu':['hu','hu-'],'jp':['ja'],'cn':['zh','zh-cn'],'ct':['zh-hk','zh-sg','zh-tw'],'kr':['ko'],'ru':['ru','ru-mo'],'ar':['ar','ar-'],'he':['he'],'id':['id'],'ca':['ca','ca-'],'eu':['eu','eu-'],'af':['af','af-'],'bs':['bs','bs-'],'sg':[],'tr':['tr','tr-'],'mk':[],'hi':[],'hr':['hr'],'ro':['ro','ro-'],'uk':['||'],'gl':['||'],'sr':['||'],'lt':['||'],'th':['||'],'lv':['||'],'fa':['||'],'ee':['et'],'ms':['ms'],'cy':['cy'],'bg':['bg'],'be':['br'],'tl':['en-ph'],'ka':['||']};
+
+		Object.defineProperty(window, "__cd_v", { value : 10, writable : false });
+
+		if (!d)
+		{
+			var __cdumps = [], __cd_t;
+			window.onerror = function __MEGAExceptionHandler(msg, url, ln, cn, errobj)
+			{
+				function mTrim(s)
+				{
+					return s
+						.replace(/resource:.+->\s/,'')
+						.replace(/blob:[^:\s]+/, '..')
+						.replace(/\.\.:\/\/[^:\s]+/, '..')
+						.replace('chrome://mega/content','..')
+						.replace(/file:.+extensions/,'..fx')
+						.replace(/(?: line \d+ > eval)+/g,' >.eval')
+				}
+				if (__cdumps.length > 3) return false;
+
+				var dump = {
+					m : ('' + msg).replace(/'(\w+:\/\/+[^/]+)[^']+'/,"'$1...'").replace(/^Uncaught\s*/,''),
+					f : mTrim('' + url), l : ln
+				}, cc, sbid = +(''+$('script[src*="secureboot"]').attr('src')).split('=').pop();
+
+				if (~dump.m.indexOf('took +10s'))
+				{
+					var lrc = +localStorage.ttfbReportCount || 0;
+					if (lrc > 20)
+					{
+						var eid = localStorage.ttfbReport;
+						localStorage.ttfbReport = sbid;
+						if (!eid || eid == sbid) return false;
+						lrc = 1;
+					}
+					localStorage.ttfbReportCount = lrc + 1;
+				}
+
+				if (errobj)
+				{
+					if (errobj.udata) dump.d = errobj.udata;
+					if (errobj.stack)
+					{
+						dump.s = ('' + errobj.stack).split("\n").splice(0,9).map(mTrim).join("\n");
+					}
+				}
+				if (cn) dump.c = cn;
+
+				if (ln == 0 && !dump.s)
+				{
+					if (dump.m.toLowerCase().indexOf('out of memory') != -1) dump.m = '!Fatal! Out Of Memory.';
+					else dump.m = dump.m.replace(/[^\s\w]/gi,'') || ('[!] ' + msg);
+				}
+
+				try
+				{
+					var crashes = JSON.parse(localStorage.crashes || '{}');
+					var checksum = MurmurHash3(JSON.stringify(dump), 0x4ef5391a);
+
+					if (crashes.v != sbid) crashes = { v : sbid };
+
+					if (crashes[checksum])
+					{
+						// Reported less than 10 days ago?
+						if (Date.now() - crashes[checksum] < 864000000) return false;
+					}
+					dump.x = checksum;
+					crashes[checksum] = Date.now();
+					localStorage.crashes = JSON.stringify(crashes);
+					cc = $.len(crashes);
+				}
+				catch(e) {
+					delete localStorage.crashes;
+				}
+
+				__cdumps.push(dump);
+				if (__cd_t) clearTimeout(__cd_t);
+				__cd_t = setTimeout(safeCall(function()
+				{
+					function ctx(id)
+					{
+						return {
+							callback : function(res)
+							{
+								if (res === EOVERQUOTA)
+								{
+									__cdumps = new Array(4);
+									if (__cd_t) clearTimeout(__cd_t);
+
+									if (id)
+									{
+										var crashes = JSON.parse(localStorage.crashes || '{}');
+										delete crashes[id];
+										localStorage.crashes = JSON.stringify(crashes);
+									}
+								}
+							}
+						};
+					}
+					var ids = [], uds = [], r = 1;
+					for (var i in __cdumps)
+					{
+						var dump = __cdumps[i];
+
+						if (dump.x) { ids.push(dump.x); delete dump.x; }
+						if (dump.d) { uds.push(dump.d); delete dump.d; }
+						if (dump.l < 0) r = 0;
+					}
+
+					var report = {};
+					report.ua = navigator.userAgent;
+					report.io = window.dlMethod && dlMethod.name;
+					report.sb = sbid;
+					report.tp = $.transferprogress;
+					report.id = ids.join(",");
+					report.ud = uds;
+					report.cc = cc;
+
+					if (is_chrome_firefox)
+					{
+						report.mo = mozBrowserID + '::' + is_chrome_firefox + '::' + mozMEGAExtensionVersion;
+					}
+					report = JSON.stringify(r? report:{});
+
+					for (var i in __cdumps)
+					{
+						api_req({ a : 'cd', c : JSON.stringify(__cdumps[i]), v : report, t : +__cd_v }, ctx(ids[i]));
+					}
+					__cd_t = 0;
+					__cdumps = [];
+
+				}), 3000);
+
+				return false;
+			};
+		}
+		function detectlang()
+		{
+			if (!navigator.language) return 'en';
+			var bl = navigator.language.toLowerCase();
+			var l2 = languages;
+			for (var l in l2) for (b in l2[l]) if (l2[l][b] == bl) return l;
+			for (var l in l2) for (b in l2[l]) if (l2[l][b].substring(0,3)==bl.substring(0,3)) return l;
+			return 'en';
+		}
+
+        /**
+         * Gets the file path for a language file
+         * @param {String} language
+         * @returns {String}
+         */
+        function getLanguageFilePath(language)
+        {
+            // If the sh1 (filename with hashes) array has been created from deploy script
+            if (typeof sh1 !== 'undefined') {
+
+                // Search the array
+                for (var i = 0, length = sh1.length; i < length; i++)
+                {
+                    var filePath = sh1[i];
+
+                    // If the language e.g. 'en' matches part of the filename from the deploy script e.g.
+                    // 'lang/en_0a8e1591149050ef1884b0c4abfbbeb759bbe9eaf062fa54e5b856fdb78e1eb3.json'
+                    if (filePath.indexOf('lang/' + language) > -1)
+                    {
+                        return filePath;
+                    }
+                }
+            }
+            else {
+                // Otherwise return the filename.json when in Development
+                return 'lang/' + language + '.json';
+            }
+        }
+
+		var init_f = [];
+        var lang = detectlang();
+        var jsl = [];
+
+        // If they've already selected a language, use that
+        if ((typeof localStorage != 'undefined') && (localStorage.lang)) {
+            if (languages[localStorage.lang]) {
+                lang = localStorage.lang;
+            }
+        }
+
+        // Get the language file path e.g. lang/en.json or 'lang/en_7a8e15911490...f1878e1eb3.json'
+        var langFilepath = getLanguageFilePath(lang);
+
+        jsl.push({f: langFilepath, n: 'lang', j:3});
+		jsl.push({f:'sjcl_f5c2f5a7f040b9ed1550f450892e7dfb3772d2ea7755f0d006d0c26268c601cb.js', n: 'sjcl_js', j:1}); // Will be replaced with asmCrypto soon
+		jsl.push({f:'js/asmcrypto_4a67df75e97fdc5b4aef27211244204c3ea9fcba88071812cc75c6b599db1942.js',n:'asmcrypto_js',j:1,w:1});
+		jsl.push({f:'js/tlvstore_a1b2d8e22899978ecd226997a8fb06a66a5245f265ba44557d580c6ad698dce0.js', n: 'tlvstore_js', j:1});
+        jsl.push({f:'js/crypto_2a1a5ad568425af08789db44b30ddfbb9f5c432b506b71e61d22ac57980e7918.js', n: 'crypto_js', j:1,w:5});
+
+		jsl.push({f:'js/jsbn_47cfb330b7bcb17d2de237dce4437a625ab2b7d577a08c6b8e30c4523fb8f96d.js', n: 'jsbn_js', j:1,w:2});
+		jsl.push({f:'js/jsbn2_b0a29d8f0677eca6f8fc03ee1286d53e804ec1cc19593beed60530a7b348af67.js', n: 'jsbn2_js', j:1,w:2});
+		jsl.push({f:'js/jodid25519_ee71a4f3b3173da4166302e956fefb664914a28024a005e6b84d028c8eddf462.js', n: 'jodid25519_js', j:1,w:7});
+
+		jsl.push({f:'js/user_f39d9aa78ac7cc9ca20cc4189493299ca5f50ae923af92ac16c01861450ab046.js', n: 'user_js', j:1});
+		jsl.push({f:'js/hex_b17082a4b357114a69edcc5a9df78e52c3d2f4f8089e3d723959e83c24497e1e.js', n: 'hex_js', j:1});
+		jsl.push({f:'js/functions_523a75c61978977d00941a55c4b3aab998ee732b7f4f13b532e80b4bb9537e7e.js', n: 'functions_js', j:1});
+		jsl.push({f:'js/mouse_e1ebdb6b1c8af2efe744ccdb2e55ae91c345d6219651cae3f08b27fd6da0b72a.js', n: 'mouse_js', j:1});
+		jsl.push({f:'js/jquery-min-1.8.1_1703c80d9f524bc30e305c7bbea63639b3044f21546faddc38a34fe6ed61a325.js', n: 'jquery', j:1,w:9});
+		jsl.push({f:'js/jquery-ui_14e1502064ddb95ddafd595e051d39024b83276485425e11c661390204e17456.js', n: 'jqueryui_js', j:1,w:12});
+		jsl.push({f:'js/base64_5291bda10d18c780cc0d713d7b438db8a7ddbc79c23a81a67c07715f48afdca7.js', n: 'base64_js', j:1});
+		jsl.push({f:'js/filedrag_8dcb4a087e8979860284d3690d93110e61c7a10d64b0851571eb7fc18d9ee187.js', n: 'filedrag_js', j:1});
+		jsl.push({f:'js/jquery.remove_d05699746cc3cd78180575ff929e3a082d109d328d29295af48fe85d1666c24f.js', n: 'jqueryremove_js', j:1});
+		jsl.push({f:'js/jquery.mousewheel_29d564fe0f5d82fe15a0d9c36156b5848a57ead649e4672721ff7a5caff5ca72.js', n: 'jquerymouse_js', j:1});
+		jsl.push({f:'js/jquery.jscrollpane.min_c3d9d4df41053b355353255a3603ae8b592a4cbacba0bf09b5b97dde804626c1.js', n: 'jscrollpane_js', j:1});
+		jsl.push({f:'js/mDB_cbd7f115b9e491c9d2d5f7cf3bb3d42caa933f262255709b3f64e565db783fc6.js', n: 'mDB_js', j:1});
+		jsl.push({f:'js/thumbnail_b7a143f79864d815630ce42899749d4d1d7706b5fd1fb6085cf34dab3c3731fb.js', n: 'thumbnail_js', j:1});
+		jsl.push({f:'js/exif_22f493813696bbb08eff0066bb1d67ddc6b047f1adc70f2f2c961833deb3a62c.js', n: 'exif_js', j:1,w:3});
+		jsl.push({f:'js/megapix_0afbd161eb9a547c0199b41d429ba8117ff19ccd073427f0053727c69669497f.js', n: 'megapix_js', j:1});
+		jsl.push({f:'js/smartcrop_e4c2c965863215bda67d28cb5016d0fc4568d0a9335977db01dd690a2957c2d2.js', n: 'smartcrop_js', j:1});
+		jsl.push({f:'js/mega_c9f4a3a8f1dcf9af49717ff789d96136694abfd7812d8c89b011d8e78140086b.js', n: 'mega_js', j:1,w:7});
+		jsl.push({f:'js/chat_ac1ea318deb231d95293cd72b712c4ce6e01fffa05abda4bdcc51dc3fc1e10ec.js', n: 'chat_js', j:1,w:7});
+		jsl.push({f:'js/fm_46ccd51c1090990b1793cdbcfddc4d34df7efb70a54e697e4b8aef118e07f38f.js', n: 'fm_js', j:1,w:12});
+		jsl.push({f:'js/filetypes_cf5380c785dbd3cd3f8424a32d6e25f074bfe88164509b31bd5bdc977ac0bc30.js', n: 'filetypes_js', j:1});
+		jsl.push({f:'js/miniui_73c130c8a23cb27ad2385e80d2a195afdd9edc4f9d28b486c9fcf11c9634cbb8.js', n: 'miniui_js', j:1});
+		if (is_extension)
+		{
+			jsl.push({f:'js/dcraw.min_7d65ffecb3fdd6d8250a4a665e1f812fbed79dbb22d0c1c5d79e2cfbe34df2b8.js', n: 'dcraw_js', j:1});
+		}
+		/* better download */
+		jsl.push({f:'js/xhr_32a446723c6a539630fb205ae71a4201c035b0c93d9862ce9bfaa7a5510b2893.js', n: 'xhr_js', j:1});
+		jsl.push({f:'js/events_4901b0646201d192f83fa7cad6de7563e1ee1b300aade39192a3663bc6184c02.js', n: 'events', j:1,w:4});
+		jsl.push({f:'js/queue_a9703d34b36810430a7a04ef768d419990b4262d09f29e062d15dbe4d21fa190.js', n: 'queue', j:1,w:4});
+		jsl.push({f:'js/downloadChrome_490bd6760baaffd83a413cc447c71db57d47147f1ed1dd09c39a07ce37fd720f.js', n: 'dl_chrome', j:1,w:3});
+		if (is_chrome_firefox && parseInt(Services.appinfo.version) > 27 && localStorage.fxio)
+		{
+			is_chrome_firefox |= 4;
+			jsl.push({f:'js/downloadFirefox_323eb42286ed9a9c9c5d4461deb9cb9fb3cf0e7aeb35942916e210e85cbcbfb4.js', n: 'dl_firefox', j:1,w:3});
+		}
+		else
+		{
+			jsl.push({f:'js/downloadMemory_2f080666f3769afa3f093f201478246366cb6a544a875f416333fe5543548f2d.js', n: 'dl_memory', j:1,w:3});
+			jsl.push({f:'js/downloadFlash_76b36207c2d1e9cde254ea8b3803218851d9043dbf12e965fb1613fa2977db08.js', n: 'dl_flash', j:1,w:3});
+		}
+		jsl.push({f:'js/downloader_d0d693245dffeb3de762409d5b97f589fac2e61a8fe07bd50e0589086b6eace3.js', n: 'dl_downloader', j:1,w:3});
+		jsl.push({f:'js/download2_a3922dd18d642a05dbb508945b61d5a94e2e9619c7f860119062b487ef71cb21.js', n: 'dl_js', j:1,w:3});
+		jsl.push({f:'js/upload2_37773551a45abd56bd9d942887beb749cedd25199c672f19a533328efd37ad87.js', n: 'upload_js', j:1,w:2});
+		/* end better download */
+		jsl.push({f:'index_5a642e4ac18a0094271eb0619eade872f53d5eb9dc79c1c2b587a73500f10f7e.js', n: 'index', j:1,w:4});
+		jsl.push({f:'html/start_a57a71c73c470a551db272c232ccab4dc047a9dc78007a95f5cf3dfe1115fa29.html', n: 'start', j:0});
+		jsl.push({f:'html/megainfo_5eff6206908dcceb4204f6ba63f3631c2b6914b8f1e85af8f152b2348faea653.html', n: 'megainfo', j:0});
+		jsl.push({f:'html/js/start_84969372ed2a727dbe8780c4f70dac9b6ce568d38a4f6a25bc722949f56e6879.js', n: 'start_js', j:1});
+		jsl.push({f:'html/bottom2_fd0e64015118938e121d839dd634233edf2c78c73fa7381bacf0aec8a21d44c0.html', n: 'bottom2',j:0});
+		jsl.push({f:'html/key_181e79302eb4c635814cfced0ee9506a02279d8c512ba60e71a59833d6bd6d69.html', n: 'key', j:0});
+		jsl.push({f:'html/js/key_e8877e4d272623a4da173c7e290d888b46cb68a49aa5dbaaa70058458957e761.js', n: 'key_js', j:1});
+		jsl.push({f:'html/pro_2af9e1ada6cbd1c99d4bc718304ebb1b423e09f298b8528f451abcdec9805ce9.html', n: 'pro', j:0});
+		jsl.push({f:'html/js/pro_c9856df53e2bf7f3cbe590f523b013d5ebaa840b555818fae45f41df3836bb80.js', n: 'pro_js', j:1});
+		jsl.push({f:'html/login_84aa3eb03597123a2e546f41aa9139639e537e6706c910d146e8fe42843e59b3.html', n: 'login', j:0});
+		jsl.push({f:'html/js/login_47ab473795a5aab36b2151a9bc32c811e9328c99d71b934a11da124b88d694ff.js', n: 'login_js', j:1});
+		jsl.push({f:'html/fm_bf2088a069a733439e75d744ebb195057a9f6db2910af20fa735e2ced20c7255.html', n: 'fm', j:0,w:3});
+		jsl.push({f:'html/top_c7027d40808ddaa51e1c7b0330381a8ccbc53c59ebf35d8a3045c7003b2106f4.html', n: 'top', j:0});
+		jsl.push({f:'js/notifications_0e81ea69eb9ebffbb1af15b7369b41e5268643bea52f2e976e3ce6ffd99bd2ba.js', n: 'notifications_js', j:1});
+		jsl.push({f:'css/style_279f6a235e30ba6b9017530efb9d8b25c05cc6003bcb4cdf757dc42c95733086.css', n: 'style_css', j:2,w:30,c:1,d:1,cache:1});
+		jsl.push({f:'js/avatar_550125f2dbadf9c573a34cd75f3a8f617553157238af6d29e0adb330c99b7824.js', n: 'avatar_js', j:1,w:3});
+		jsl.push({f:'js/countries_0c4183c0e98577df85d08dbe1b497eb862705389167660a1e63a3d571f2ecbd5.js', n: 'countries_js', j:1});
+		jsl.push({f:'html/dialogs_44528aefde6a59e8a20244edf0a48068d5acb2569b92164621bb83c7e1aa0acd.html', n: 'dialogs', j:0,w:2});
+		jsl.push({f:'html/transferwidget_196612130f1979a7b8677ee52d8db94bfbcee14a183ab6bc20ef2929e2b1dfc6.html', n: 'transferwidget', j:0});
+		jsl.push({f:'js/checkboxes_67c702c459917c4028b74b378568746f954de95403ec2d4f35621b2d24cc28b9.js', n: 'checkboxes_js', j:1});
+		jsl.push({f:'js/Int64_16230798e506f508f39fbed9a58392097bb5201a385735fbd0a3fa80fab6ef54.js', n: 'int64_js', j:1});
+		jsl.push({f:'js/zip64_e7de08f2755c1ccaf69be6e9d4f213bc7a4294f0fd51db2251781570ef3c3ef3.js', n: 'zip_js', j:1});
+		jsl.push({f:'js/analytics_c1e9bbcc6a9cf674b497204da7f070daff390bc70fabaf9544f8a5de673f781e.js', n: 'analytics_js', j:1});
+
+		var jsl2 =
+		{
+			'about': {f:'html/about_103ce9f3fcb746d17a2cb8330f34cdaac3a8249fd961321276883f12b184a4ae.html', n: 'about', j:0},
+			'blog': {f:'html/blog_053247db78dccbaa1880d1e81fdb5928b297f512ed88fdb57795210a6781d30a.html', n: 'blog', j:0},
+			'blog_js': {f:'html/js/blog_2b97e097fe0330c3934c94dbb7a86463b66fe9c11556d3f2bd479c14ce681f46.js', n: 'blog_js', j:1},
+			'blogarticle': {f:'html/blogarticle_c9689df02811c591ca53918f676e48791bd980bf5043d98b09dddcc29a43606d.html', n: 'blogarticle', j:0},
+			'blogarticle_js': {f:'html/js/blogarticle_c5a5ca5b8588a609e9dd6da0f8a65e3c7aaeda7b6739fa14ee8f222cb2c7d87f.js', n: 'blogarticle_js', j:1},
+			'register': {f:'html/register_2632abbc8c81eb31f3bfd7307315c9da38208526abbeaeeab7a63eaceeb61cb5.html', n: 'register', j:0},
+			'register_js': {f:'html/js/register_a1d1357f36a45f2dc29100419ffdfe8032849aea0878caf094f573331c634079.js', n: 'register_js', j:1},
+			'resellers': {f:'html/resellers_cc56d278539fd9db4dcab6cfc9fdf6daa965d68ae900700a62767aceda92008a.html', n: 'resellers', j:0},
+			'download': {f:'html/download_e7a15367c4e05688dd1dfaab2aa7d0c3116eacd5f8208c25a8318a1ddf24131d.html', n: 'download', j:0},
+			'download_js': {f:'html/js/download_0818e5c7f0a7502e5fbba7e3c40e6b11c4ef809ddec639084b3e8d0a689c8ec3.js', n: 'download_js', j:1},
+			'copyright': {f:'html/copyright_b8e1d306c1d9b5db898a2532dc4b4b6977efb6b108d1fc73914f0c1bc5131361.html', n: 'copyright', j:0},
+			'copyrightnotice': {f:'html/copyrightnotice_10f03774b4bd9fedd14abbe1db46ed9da9741386d57bddcfa05afc8b731fa33b.html', n: 'copyrightnotice', j:0},
+			'copyrightnotice_js': {f:'html/js/copyrightnotice_579ce7b30923f13f90ab62c03d793718c4ce4603c478b70f9218e76c6dcc067b.js', n: 'copyrightnotice_js', j:1},
+			'privacy': {f:'html/privacy_3dde250a1db95780a06e438614763f97f5b763ff777cc7711335e7cebff370de.html', n: 'privacy', j:0},
+			'terms': {f:'html/terms_c269b548b9047cfb574e1375ac591964dcff2bad16dab66ac8f81e34c1562e92.html', n: 'terms', j:0},
+			'backup': {f:'html/backup_0569a87f947878826239b750189536cdc171f4dd9eb0bab73ff1bb44a574edcb.html', n: 'backup', j:0},
+			'backup_js': {f:'html/js/backup_51cdd97178e10b7fc2f26c02192daee09ef9e1ab83f4a6c9df33f710278f259d.js', n: 'backup_js', j:1},
+			'reset': {f:'html/reset_24360d4c68810c2b23f02166e2f819e3ccf87df91751b5715486917813627be0.html', n: 'reset', j:0},
+			'reset_js': {f:'html/js/reset_72d01009fb3e2c5ef9bad69d2d99240c2bdf209f04fad8a1e386a473725c1ff0.js', n: 'reset_js', j:1},
+			'filesaver': {f:'js/filesaver_7ff5a45cc7810de1757a43481226a7e071817b59ea08d55847ed45a43de4fee5.js', n: 'filesaver', j:1},
+			'recovery': {f:'html/recovery_c9d50d454e10aa28927d5a17b0f4e5503d0248658fabfe9a5358081307252df0.html', n: 'recovery', j:0},
+			'recovery_js': {f:'html/js/recovery_4a4a62afaa2bad9c198570ff0d60266c1afb1a8a5594c88d4e682a9ca7ef314e.js', n: 'recovery_js', j:1},
+			'credits': {f:'html/credits_394f9496da966eaea54a97d90a49d43dd881bd7f741b0c9acac86ee93d245931.html', n: 'credits', j:0},
+			'takedown': {f:'html/takedown_321cf3a95cfd074e89169905747b0afde8d32baf97f100e383e586d11aa0754a.html', n: 'takedown', j:0},
+			'dev': {f:'html/dev_b25cfc7bcfc9d087c80dce752e2219bda86e85ea0a802af36b6c7fbbec3ed1a6.html', n: 'dev', j:0},
+			'arkanoid_js': {f:'js/arkanoid_fa96c8d5bcecf7d54de1387be20fc0cd186fbbc60f8a8c9f75d3eb0c304a7f12.js', n: 'arkanoid_js', j:1},
+			'dev_js': {f:'html/js/dev_5d222c6c85aed32eb285373b5ff9e418f40a9b8df57a686e61520dc14f99c32e.js', n: 'dev_js', j:1},
+			'sdkterms': {f:'html/sdkterms_9a8d2b35b8f6d727e2ffbd603d4fa11f11f11c2f18f6c6964bbd6d7f3a4590ee.html', n: 'sdkterms', j:0},
+			'help': {f:'html/help_e24239356fd47fcc928d3e85d9e8701430a0224c2591546b21962d34f5b0b3f3.html', n: 'help', j:0},
+			'help_js': {f:'html/js/help_2a83a2fdbf0b5eaca3293dc7912b050d4ac3145e3176c64f29756b7599fa6459.js', n: 'help_js', j:1},
+			'firefox': {f:'html/firefox_2cb3eaf6e4e4a9279888112a84dae7b3697b02ed97ef1ba215c8b22423a87fc8.html', n: 'firefox', j:0},
+			'sync': {f:'html/sync_8cc2a5010873eb28ed186df8d47986ba74105b4db6eceb41deebdebd46848aa1.html', n: 'sync', j:0},
+			'sync_js': {f:'html/js/sync_8fe04785e2ea5b11fcb5182b727e3dbbd55e652961eb8b0e9167c56651c8ef1e.js', n: 'sync_js', j:1},
+			'mobile': {f:'html/mobile_9611bfb14621688e5449058b8813581c21fe971609acdd670788623686009240.html', n: 'mobile', j:0},
+			'affiliates': {f:'html/affiliates_8101a9a1189c32d6ce2c2d255440bc0a10ece014c53ef6d24b2485d5beba998e.html', n: 'affiliates', j:0},
+			'affiliate_js': {f:'html/js/affiliate_3197c37d89bedcd6d7995e6c2899e7a182fa6f6465b13efa16fb004cfd45364c.js', n: 'affiliate_js', j:0},
+			'affiliateterms': {f:'html/affiliateterms_47a2cc5c2ad489b5372db22b2b523380e872c66bc9e1593366ac90e804d0dbbf.html', n: 'affiliateterms', j:0},
+			'affiliatesignup': {f:'html/affiliatesignup_98d7c79818b9bb07cb9e770394eefd80e8469c76757a14a037220d389b9e1103.html', n: 'affiliatesignup', j:0},
+			'affiliatesignup_js': {f:'html/js/affiliatesignup_aec3b7e3ccdb2048f1cc5b11dccac8cd5b3c478604c72b6ff2c45c5e91c9648d.js', n: 'affiliatesignup_js', j:1},
+			'affiliatemember': {f:'html/affiliatemember_5f79a9ab12b3d89f5f2dad5743a14bba4ba67e45bb071dbcd8726afe985a25fb.html', n: 'affiliatemember', j:0},
+			'affiliatemember_js': {f:'html/js/affiliatemember_6f4d296921b3250de3f0af1c957c102451284281fa7db5a4b70576f430405f12.js', n: 'affiliatemember_js', j:1},
+			'contact': {f:'html/contact_e69c5a94c53841fbdf8d34f036a90c994020d13656d5fe7fc7b3b139aacfe9e1.html', n: 'contact', j:0},
+			'privacycompany': {f:'html/privacycompany_a7fd63b178473b094bfde309bd891c49c66a8635c90116f4f70e6aebe6e06b01.html', n: 'privacycompany', j:0},
+			'chrome': {f:'html/chrome_911f323d5b92285aeaa66986c411293dce0fd333e755719ba16b7e30c251adf9.html', n: 'chrome', j:0},
+			'zxcvbn_js': {f:'js/zxcvbn_b94f9f08849da3d82c8231dbafe71780a31d77b0cac6a399a740cdb2607f4c2e.js', n: 'zxcvbn_js', j:1}
+		};
+		var subpages =
+		{
+			'about': ['about'],
+			'terms': ['terms'],
+			'credits': ['credits'],
+			'backup': ['backup','backup_js','filesaver'],
+			'recovery': ['recovery','recovery_js'],
+			'reset': ['reset','reset_js'],
+			'blog': ['blog','blog_js','blogarticle','blogarticle_js'],
+			'register': ['register','register_js'],
+			'android': ['android'],
+			'resellers': ['resellers'],
+			'!': ['download','download_js'],
+			'copyright': ['copyright'],
+			'key':['arkanoid_js'],
+			'copyrightnotice': ['copyrightnotice','copyrightnotice_js'],
+			'privacy': ['privacy','privacycompany'],
+			'takedown': ['takedown'],
+			'firefox': ['firefox'],
+			'mobile': ['mobile'],
+			'sync': ['sync','sync_js'],
+			'contact': ['contact'],
+			'dev': ['dev','dev_js','sdkterms'],
+			'sdk': ['dev','dev_js','sdkterms'],
+			'doc': ['dev','dev_js','sdkterms'],
+			'help': ['help','help_js'],
+			'chrome': ['chrome'],
+			'plugin': ['chrome','firefox'],
+			'affiliate': ['affiliates','affiliateterms','affiliatesignup','affiliatesignup_js','affiliatemember','affiliatemember_js','affiliate_js'],
+			'recover': ['reset','reset_js']
+		};
+
+		if (page)
+		{
+			if (page.indexOf('%25') !== -1)
+			{
+				do {
+					page = page.replace('%25','%', 'g');
+				} while (~page.indexOf('%25'));
+			}
+			if (page.indexOf('%21') !== -1)
+			{
+				page = page.replace('%21','!', 'g');
+				document.location.hash = page;
+			}
+
+			page = page.replace('#','');
+			for (var p in subpages)
+			{
+				if (page.substr(0,p.length) == p)
+				{
+					for (var i in subpages[p]) jsl.push(jsl2[subpages[p][i]]);
+				}
+			}
+		}
+		var downloading = false;
+		var ul_uploading = false;
+		var lightweight=false;
+		var njsl = [];
+		var fx_startup_cache = is_chrome_firefox && nocontentcheck;
+		if ((typeof Worker !== 'undefined') && (typeof window.URL !== 'undefined') && !fx_startup_cache && !nocontentcheck)
+		{
+			var hashdata = ['self.postMessage = self.webkitPostMessage || self.postMessage;', sjcl_sha256_js, 'self.onmessage = function(e) { try { var hash = sjcl_sha256.hash.sha256.hash(e.data.text); var hashHex = sjcl_sha256.codec.hex.fromBits(hash); e.data.hash = hashHex; self.postMessage(e.data); } catch(err) { e.data.error = err.message; self.postMessage(e.data);  } };'];
+			try  { var blob = new Blob(hashdata, { type: "text/javascript" }); }
+			catch(e)
+			{
+				window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+				var bb = new BlobBuilder();
+				for (var i in hashdata) bb.append(hashdata[i]);
+				var blob = bb.getBlob('text/javascript');
+			}
+			var hash_url = window.URL.createObjectURL(blob);
+			var hash_workers = [];
+			var i =0;
+			while (i < 2)
+			{
+				try
+				{
+					hash_workers[i] = new Worker(hash_url);
+					hash_workers[i].postMessage = hash_workers[i].webkitPostMessage || hash_workers[i].postMessage;
+					hash_workers[i].onmessage = function(e)
+					{
+						if (e.data.error)
+						{
+							console.log('error',e.data.error);
+							console.log(e.data.text);
+							alert('error');
+						}
+                        if (!nocontentcheck && !compareHashes(e.data.hash, jsl[e.data.jsi].f))
+						{
+							if (bootstaticpath.indexOf('cdn') > -1)
+							{
+								sessionStorage.skipcdn=1;
+								document.location.reload();
+							}
+							else {
+                                alert('An error occurred while loading MEGA. The file ' + bootstaticpath+jsl[e.data.jsi].f + ' is corrupt. Please try again later. We apologize for the inconvenience.');
+                            }
+
+							contenterror=1;
+						}
+						if (!contenterror)
+						{
+							jsl_current += jsl[e.data.jsi].w || 1;
+							jsl_progress();
+							if (++jslcomplete == jsl.length) initall();
+							else jsl_load(e.data.xhri);
+						}
+					};
+				}
+				catch(e)
+				{
+					hash_workers = undefined;
+				}
+				i++;
+			}
+		}
+		if (jj)
+		{
+			l=[];
+			var i = 3000;
+			while (i--) l[i]='l';
+			for (var i in jsl)
+			{
+				if (jsl[i].j === 1) document.write('<' + 'script type="text/javascript" src="' + bootstaticpath + jsl[i].f + '?r=' + Math.random() + '"></sc' + 'ript>');
+				else if (jsl[i].j === 2)
+				{
+					if ((m && (jsl[i].m)) || ((!m) && (jsl[i].d)))
+						document.write('<link rel="stylesheet" type="text/css" href="' + bootstaticpath + jsl[i].f + '" />');
+				}
+			}
+		}
+		var pages = [], scripts = {};
+		function getxhr()
+		{
+			return (typeof XDomainRequest != 'undefined' && typeof ArrayBuffer == 'undefined') ? new XDomainRequest() : new XMLHttpRequest();
+		}
+
+		var xhr_progress,xhr_stack,jsl_fm_current,jsl_current,jsl_total,jsl_perc,jsli,jslcomplete;
+
+		function jsl_start()
+		{
+			jslcomplete = 0;
+			xhr_progress = [0,0];
+			xhr_stack = Array(xhr_progress.length);
+			jsl_fm_current = 0;
+			jsl_current = 0;
+			jsl_total = 0;
+			jsl_perc = 0;
+			jsli=0;
+			for (var i = jsl.length; i--;) if (!jsl[i].text) jsl_total += jsl[i].w || 1;
+			if (fx_startup_cache)
+			{
+				var step = function(jsi)
+				{
+					jsl_current += jsl[jsi].w || 1;
+					jsl_progress();
+					if (++jslcomplete == jsl.length) initall();
+					else
+					{
+						// mozRunAsync(next.bind(this, jsli++));
+						next(jsli++);
+					}
+				};
+				var next = function(jsi)
+				{
+					var file = bootstaticpath + jsl[jsi].f;
+
+					if (jsl[jsi].j == 1)
+					{
+						if (file.indexOf('/mads') == -1) try
+						{
+							loadSubScript(file);
+						}
+						catch(e)
+						{
+							Cu.reportError(e);
+
+							if (String(e) !== "Error: AsmJS modules are not yet supported in XDR serialization.") {
+								return alert('An error occurred while loading MEGA.\n\nFilename: '
+									+ file + "\n" + e + '\n\n' + mozBrowserID);
+							}
+						}
+						step(jsi);
+					}
+					else
+					{
+						var ch = NetUtil.newChannel(file);
+						ch.contentType = jsl[jsi].j == 3
+							? "application/json":"text/plain";
+
+						NetUtil.asyncFetch(ch, function(is, s)
+						{
+							if (!Components.isSuccessCode(s))
+							{
+								alert('An error occurred while loading MEGA.' +
+									' The file ' + file + ' could not be loaded.');
+							}
+							else
+							{
+								jsl[jsi].text = NetUtil.readInputStreamToString(is, is.available());
+								if (jsl[jsi].j == 3) l = JSON.parse(jsl[jsi].text);
+								step(jsi);
+							}
+						});
+					}
+				};
+				next(jsli++);
+			}
+			else
+			{
+				for (var i = xhr_progress.length; i--; ) jsl_load(i);
+			}
+		}
+
+		var xhr_timeout=30000;
+
+		function xhr_error()
+		{
+			xhr_timeout+=10000;
+			console.log(xhr_timeout);
+			if (bootstaticpath.indexOf('cdn') > -1)
+			{
+				bootstaticpath = geoStaticpath(1);
+				staticpath = geoStaticpath(1);
+			}
+			xhr_progress[this.xhri] = 0;
+			xhr_load(this.url,this.jsi,this.xhri);
+		}
+
+		function xhr_load(url,jsi,xhri)
+		{
+			  xhr_stack[xhri] = getxhr();
+			  xhr_stack[xhri].onload = function()
+			  {
+				jsl[this.jsi].text = this.response || this.responseText;
+
+				if (typeof hash_workers !== 'undefined' && !nocontentcheck)
+				{
+					hash_workers[this.xhri].postMessage({'text':jsl[this.jsi].text,'xhr':'test','jsi':this.jsi,'xhri':this.xhri});
+				}
+				else
+				{
+                    if (!nocontentcheck) {
+
+                        // Hash the file content and convert to hex
+                        var hash = sjcl_sha256.hash.sha256.hash(jsl[this.jsi].text);
+                        var hashHex = sjcl_sha256.codec.hex.fromBits(hash);
+
+                        // Compare the hash from the file and the correct hash determined at deployment time
+                        if (!compareHashes(hashHex, jsl[e.data.jsi].f))
+                        {
+                            alert('An error occurred while loading MEGA. The file ' + bootstaticpath + jsl[this.jsi].f + ' is corrupt. Please try again later. We apologize for the inconvenience.');
+                            contenterror = 1;
+                        }
+                    }
+
+					if (!contenterror)
+					{
+						jsl_current += jsl[this.jsi].w || 1;
+						jsl_progress();
+						if (++jslcomplete == jsl.length) initall();
+						else jsl_load(this.xhri);
+					}
+				}
+			  };
+			  xhr_stack[xhri].onreadystatechange = function()
+			  {
+				try
+				{
+					if (this.readyState == 1) this.timeout=0;
+				}
+				catch(e)
+				{
+
+				}
+			  };
+			  xhr_stack[xhri].onerror = xhr_error;
+			  xhr_stack[xhri].ontimeout = xhr_error;
+			  if (is_extension && url.indexOf('/mads') > -1)
+			  {
+				jsl[jsi].text = ';';
+			  }
+			  if (jsl[jsi].text)
+			  {
+				if (++jslcomplete == jsl.length) initall();
+				else jsl_load(xhri);
+			  }
+			  else
+			  {
+				  xhr_stack[xhri].url = url;
+				  xhr_stack[xhri].jsi = jsi;
+				  xhr_stack[xhri].xhri = xhri;
+				  if (localStorage.dd) url += '?t=' + Date.now();
+				  xhr_stack[xhri].open("GET", (!localStorage.dd && url.indexOf('mads_') > -1 ? 'https://eu.static.mega.co.nz/' : bootstaticpath) + url, true);
+				  xhr_stack[xhri].timeout = xhr_timeout;
+				  if (is_chrome_firefox) xhr_stack[xhri].overrideMimeType('text/plain');
+				  xhr_stack[xhri].send(null);
+			  }
+		}
+		window.onload = function ()
+		{
+			if (!maintenance && !androidsplash) jsl_start();
+		};
+		function jsl_load(xhri)
+		{
+			if (jsl[jsli])
+			{
+				xhr_load(jsl[jsli].f, jsli++,xhri);
+			}
+		}
+		function jsl_progress()
+		{
+			if (d) console.log('done',(jsl_current+jsl_fm_current));
+			if (d) console.log('total',jsl_total);
+			var p = Math.floor((jsl_current+jsl_fm_current)/jsl_total*100);
+			if ((p > jsl_perc) && (p <= 100))
+			{
+				jsl_perc = p;
+				if (is_extension) p=100;
+				document.getElementById('loadinganim').className = 'loading-progress-bar percents-'+p;
+			}
+		}
+		var jsl_loaded={};
+		function initall()
+		{
+			var jsar = [];
+			var cssar = [];
+			// for(var i in localStorage) if (i.substr(0,6) == 'cache!') delete localStorage[i];
+			for (var i in jsl)
+			{
+			  // if (d) console.warn(jsl[i].j, jsl[i].f, (''+jsl[i].text).substr(0,80))
+			  jsl_loaded[jsl[i].n]=1;
+			  if ((jsl[i].j == 1) && (!jj))
+			  {
+				if (!fx_startup_cache)
+				{
+					if (window.URL) jsar.push(jsl[i].text + '\n\n');
+					else evalscript(jsl[i].text);
+				}
+			  }
+			  else if ((jsl[i].j == 2) && (!jj))
+			  {
+				if (document.getElementById('bootbottom')) document.getElementById('bootbottom').style.display='none';
+				if (window.URL)
+				{
+					cssar.push(jsl[i].text.replace(/\.\.\//g,staticpath).replace(new RegExp( "\\/en\\/", "g"),'/' + lang + '/'));
+				}
+				else
+				{
+					var css = document.createElement('style');
+					css.type = "text/css";
+					css.rel = 'stylesheet';
+					document.getElementsByTagName('head')[0].appendChild(css);
+					css.innerHTML = jsl[i].text.replace(/\.\.\//g,staticpath).replace(new RegExp( "\\/en\\/", "g"),'/' + lang + '/');
+				}
+			  }
+			  else if (jsl[i].j == 3) l = JSON.parse(jsl[i].text);
+			  else if (jsl[i].j == 4) scripts[jsl[i].f] = jsl[i].text;
+			  else if (jsl[i].j == 0) pages[jsl[i].n] = jsl[i].text;
+			}
+			if (window.URL)
+			{
+				try
+				{
+					var blob = new Blob(cssar, { type: "text/css" });
+					for ( var f in scripts ) {
+						if (!scripts[f].match(/^blob:/)) {
+							scripts[f] = window.URL.createObjectURL( new Blob( [ scripts[f] ], { type: 'text/javascript' } ) );
+						}
+					}
+				}
+				catch(e)
+				{
+					window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+					var bb = new BlobBuilder();
+					for (var i in cssar) bb.append(cssar[i]);
+					var blob = bb.getBlob('text/css');
+					for ( var f in scripts ) {
+						if (!scripts[f].match(/^blob:/)) {
+							bb = new BlobBuilder();
+							bb.append( scripts[f] );
+							scripts[f] = window.URL.createObjectURL( bb.getBlob('text/javascript') );
+						}
+				    }
+				}
+				var link = document.createElement('link');
+				link.setAttribute('rel', 'stylesheet');
+				link.type = 'text/css';
+				link.href = window.URL.createObjectURL(blob);
+				document.head.appendChild(link);
+				cssar=undefined;
+				jsar.push('jsl_done=true; boot_done();');
+				evalscript_url(jsar);
+				jsar=undefined;
+			}
+			else
+			{
+				jsl_done=true;
+				boot_done();
+			}
+			jj = 0; //prevent further 'silent_loading' loads from failing..
+		}
+	}
+	if (ua.indexOf('android') > 0 && !sessionStorage.androidsplash && document.location.hash.indexOf('#confirm') == -1)
+	{
+		if (document.location.hash == '#android')
+		{
+			document.location = 'https://play.google.com/store/apps/details?id=nz.mega.android';
+		}
+		else
+		{
+			document.write('<link rel="stylesheet" type="text/css" href="' + staticpath + 'css/mobile-android_026e2001646cefd36b9ab90c61deb72e10264ab9c283b8d88c7e155a112d26ee.css" /><div class="overlay"></div><div class="new-folder-popup" id="message"><div class="new-folder-popup-bg"><div class="new-folder-header">MEGA for Android</div><div class="new-folder-main-bg"><div class="new-folder-descr">Do you want to install the latest<br/> version of the MEGA app for Android?</div><a class="new-folder-input left-button" id="trashbinYes"> <span class="new-folder-bg1"> <span class="new-folder-bg2" id="android_yes"> Yes </span> </span></a><a class="new-folder-input right-button" id="trashbinNo"> <span class="new-folder-bg1"> <span class="new-folder-bg2" id="android_no">No </span> </span></a><div class="clear"></div></div></div></div></div>');
+			document.getElementById('android_yes').addEventListener("click", function ()
+			{
+				document.location = 'https://play.google.com/store/apps/details?id=nz.mega.android';
+			}, false);
+			document.getElementById('android_no').addEventListener("click", function ()
+			{
+				sessionStorage.androidsplash=1;
+				document.location.reload();
+			}, false);
+			androidsplash=true;
+		}
+	}
+	else
+	{
+		var istaticpath = staticpath;
+		if (document.location.href.substr(0,19) == 'chrome-extension://')  istaticpath = '../';
+		else if (is_chrome_firefox) istaticpath = 'chrome://mega/content/';
+
+		document.write('<style type="text/css">.div, span, input {outline: none;}.hidden {display: none;}.clear {clear: both;margin: 0px;padding: 0px;display: block;}.loading-main-block {width: 100%;height: 100%;overflow: auto;font-family:Arial, Helvetica, sans-serif;}.loading-mid-white-block {height: 100%;width:100%;}.mid-centered-block {position: absolute;width: 494px;min-height: 158px;top: 50%;left: 50%;margin: -95px 0 0 -247px;}.loading-main-bottom {max-width: 940px;width: 100%;position: absolute;bottom: 20px;left: 50%;margin: 0 0 0 -470px;text-align: center;}.loading-bottom-button {height: 29px;width: 29px;float: left;background-image: url(' + istaticpath + 'images/mega/loading-sprite1.png);background-repeat: no-repeat;cursor: pointer;}.st-social-block-load {position: absolute;bottom: 20px;left: 0;width: 100%;height: 43px;text-align: center;}.st-bottom-button {height: 29px;width: 29px;display: inline-block;background-image: url(' + istaticpath + 'images/mega/new-startpage-spite1.png?v=1);background-repeat: no-repeat;cursor: pointer;}.st-bottom-button.st-google-button {background-position: -93px -1233px;position: relative;margin: 0 5px;}.st-bottom-button.st-google-button:hover {background-position: -93px -1173px;}.st-bottom-button.st-facebook-button {background-position: -49px -1233px;margin: 0 5px;}.st-bottom-button.st-facebook-button:hover {background-position: -49px -1173px;}.st-bottom-button.st-twitter-button {background-position: left -1233px;margin: 0 5px;}.st-bottom-button.st-twitter-button:hover {background-position: left -1173px;}.loading-cloud {width: 222px;height: 158px;background-image: url(' + istaticpath + 'images/mega/loading-sprite1.png);background-repeat: no-repeat;background-position: 0 -2128px;margin: 0 auto;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-ms-box-sizing: border-box;box-sizing: border-box;padding-top: 55px;}.loading-progress-bar, .loading-progress-bar div {width: 80px;height: 80px;margin: 0 0 0 71px;background-image: url(' + istaticpath + 'images/mega/loading-sprite1.png);background-repeat: no-repeat;background-position: 0 top;}.loading-progress-bar div {background-position: -71px -2183px;margin: 0;}.maintance-block {position: absolute;width: 484px;min-height: 94px;border: 2px solid #d9d9d9;-moz-border-radius: 7px;-webkit-border-radius: 7px;border-radius: 7px;padding: 10px;color: #333333;font-size: 13px;line-height: 30px;padding: 15px 15px 15px 102px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-ms-box-sizing: border-box;box-sizing: border-box;background-image: url(' + istaticpath + 'images/mega/loading-sprite1.png);background-repeat: no-repeat;background-position: -60px -2428px;margin-top: 45px;}.loading-progress-bar.percents-0 {background-position: 0 0;}.loading-progress-bar.percents-1, .loading-progress-bar.percents-2, .loading-progress-bar.percents-3 {background-position: -130px 0;}.loading-progress-bar.percents-4, .loading-progress-bar.percents-5, .loading-progress-bar.percents-6 {background-position: 0 -100px;}.loading-progress-bar.percents-7, .loading-progress-bar.percents-8, .loading-progress-bar.percents-9 {background-position: -130px -100px;}.loading-progress-bar.percents-10, .loading-progress-bar.percents-11, .loading-progress-bar.percents-12 {background-position: 0 -200px;}.loading-progress-bar.percents-13, .loading-progress-bar.percents-14, .loading-progress-bar.percents-15 {background-position: -130px -200px;}.loading-progress-bar.percents-16, .loading-progress-bar.percents-17, .loading-progress-bar.percents-18 {background-position: 0 -300px;}.loading-progress-bar.percents-19, .loading-progress-bar.percents-20, .loading-progress-bar.percents-21 {background-position: -130px -300px;}.loading-progress-bar.percents-22, .loading-progress-bar.percents-23, .loading-progress-bar.percents-24 {background-position: 0 -400px;}.loading-progress-bar.percents-25, .loading-progress-bar.percents-26, .loading-progress-bar.percents-27 {background-position: -130px -400px;}.loading-progress-bar.percents-28, .loading-progress-bar.percents-29, .loading-progress-bar.percents-30 {background-position: 0 -500px;}.loading-progress-bar.percents-31, .loading-progress-bar.percents-32, .loading-progress-bar.percents-33 {background-position: -130px -500px;}.loading-progress-bar.percents-34, .loading-progress-bar.percents-35 {background-position: 0 -600px;}.loading-progress-bar.percents-36, .loading-progress-bar.percents-37 {background-position: -130px -600px;}.loading-progress-bar.percents-38, .loading-progress-bar.percents-39 {background-position: 0 -700px;}.loading-progress-bar.percents-40, .loading-progress-bar.percents-41 {background-position: -130px -700px;}.loading-progress-bar.percents-42, .loading-progress-bar.percents-43 {background-position: 0 -800px;}.loading-progress-bar.percents-44, .loading-progress-bar.percents-45 {background-position: -130px -800px;}.loading-progress-bar.percents-46, .loading-progress-bar.percents-47 {background-position: 0 -900px;}.loading-progress-bar.percents-48, .loading-progress-bar.percents-49 {background-position: -130px -900px;}.loading-progress-bar.percents-50 {background-position: 0 -1000px;}.loading-progress-bar.percents-51, .loading-progress-bar.percents-52, .loading-progress-bar.percents-53 {background-position: -130px -1000px;}.loading-progress-bar.percents-54, .loading-progress-bar.percents-55, .loading-progress-bar.percents-56 {background-position: 0 -1100px;}.loading-progress-bar.percents-57, .loading-progress-bar.percents-58, .loading-progress-bar.percents-59 {background-position: -130px -1100px;}.loading-progress-bar.percents-60, .loading-progress-bar.percents-61, .loading-progress-bar.percents-62 {background-position: 0 -1200px;}.loading-progress-bar.percents-63, .loading-progress-bar.percents-64, .loading-progress-bar.percents-65 {background-position: -130px -1200px;}.loading-progress-bar.percents-66, .loading-progress-bar.percents-67, .loading-progress-bar.percents-68 {background-position: 0 -1300px;}.loading-progress-bar.percents-69, .loading-progress-bar.percents-70, .loading-progress-bar.percents-71 {background-position: -130px -1300px;}.loading-progress-bar.percents-72, .loading-progress-bar.percents-73, .loading-progress-bar.percents-74 {background-position: 0 -1400px;}.loading-progress-bar.percents-75, .loading-progress-bar.percents-76, .loading-progress-bar.percents-77 {background-position: -130px -1400px;}.loading-progress-bar.percents-78, .loading-progress-bar.percents-79, .loading-progress-bar.percents-80 {background-position: 0 -1500px;}.loading-progress-bar.percents-81, .loading-progress-bar.percents-82, .loading-progress-bar.percents-83 {background-position: -130px -1500px;}.loading-progress-bar.percents-84, .loading-progress-bar.percents-85, .loading-progress-bar.percents-86 {background-position: 0 -1600px;}.loading-progress-bar.percents-87, .loading-progress-bar.percents-88, .loading-progress-bar.percents-89 {background-position: -130px -1600px;}.loading-progress-bar.percents-90, .loading-progress-bar.percents-91, .loading-progress-bar.percents-92 {background-position: 0 -1800px;}.loading-progress-bar.percents-93, .loading-progress-bar.percents-94, .loading-progress-bar.percents-95 {background-position: -130px -1800px;}.loading-progress-bar.percents-96, .loading-progress-bar.percents-97 {background-position: 0 -1900px;}.loading-progress-bar.percents-98, .loading-progress-bar.percents-99 {background-position: -130px -1900px;}.loading-progress-bar.percents-100 {background-position: 0 -2000px;}.follow-txt {text-decoration:none; line-height: 28px; float:right; color:#666666; font-size:12px;}@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {.maintance-block, .loading-progress-bar, .loading-progress-bar div, .loading-cloud, .loading-bottom-button {background-image: url(' + istaticpath + 'images/mega/loading-sprite1@2x.png);	background-size: 222px auto;}.st-bottom-button, .st-bottom-scroll-button {background-image: url(' + istaticpath + 'images/mega/new-startpage-spite1@2x.png?v=1);background-size: 356px auto;}}</style><div class="loading-main-block" id="loading"><div class="loading-mid-white-block"><div class="mid-centered-block"><div class="loading-cloud"><div class="loading-progress-bar percents-1" id="loadinganim"><div></div></div></div><div class="maintance-block hidden">Scheduled System Maintenance - Expect Disruptions<br/>Sunday 04:00 - 10:00 UTC </div></div><div class="st-social-block-load" id="bootbottom"><a href="https://www.facebook.com/MEGAprivacy" target="_blank" class="st-bottom-button st-facebook-button"></a><a href="https://www.twitter.com/MEGAprivacy" target="_blank" class="st-bottom-button st-twitter-button"></a><a href="https://plus.google.com/b/108055545377490138410/" target="_blank" class="st-bottom-button st-google-button"></a></div></div></div>');
+	}
+	var u_storage,loginresponse,u_sid,jsl_done,dlresponse,dl_res;
+
+	u_storage = init_storage( localStorage.sid ? localStorage : sessionStorage );
+
+	if ((u_sid = u_storage.sid))
+	{
+		loginresponse = true;
+		var lxhr = getxhr();
+		lxhr.onload = function()
+		{
+			if (this.status == 200)
+			{
+				try
+				{
+					loginresponse = this.response || this.responseText;
+					if (loginresponse && loginresponse[0] == '[') loginresponse = JSON.parse(loginresponse);
+					else loginresponse = false;
+					boot_done();
+				}
+				catch (e)
+				{
+					loginresponse= false;
+					boot_done();
+				}
+			}
+			else
+			{
+				loginresponse= false;
+				boot_done();
+			}
+		};
+		lxhr.onerror = function()
+		{
+			loginresponse= false;
+			boot_done();
+		};
+		lxhr.open("POST", apipath + 'cs?id=0&sid='+u_storage.sid, true);
+		lxhr.send(JSON.stringify([{'a':'ug'}]));
+	}
+	function boot_auth(u_ctx,r)
+	{
+		u_type = r;
+		u_checked=true;
+		startMega();
+	}
+	function boot_done()
+	{
+		lxhr = dlxhr = undefined;
+		if (loginresponse === true || dl_res === true || !jsl_done) return;
+
+		if (u_checked) startMega();
+		else if (loginresponse)
+		{
+			api_setsid(u_sid);
+			u_checklogin3a(loginresponse[0],{checkloginresult:boot_auth});
+			loginresponse = undefined;
+		}
+		else u_checklogin({checkloginresult:boot_auth},false);
+	}
+	if (page.substr(0,1) == '!' && page.length > 1)
+	{
+		var dlxhr = getxhr();
+		dl_res = true;
+		dlxhr.onload = function()
+		{
+			if (this.status == 200)
+			{
+				try
+				{
+					dl_res = this.response || this.responseText;
+					if (dl_res[0] == '[') dl_res = JSON.parse(dl_res);
+					if (dl_res[0]) dl_res = dl_res[0];
+					boot_done();
+				}
+				catch (e)
+				{
+					dl_res = false;
+					boot_done();
+				}
+			}
+			else
+			{
+				dl_res = false;
+				boot_done();
+			}
+		}
+		dlxhr.onerror = function()
+		{
+			dl_res= false;
+			boot_done();
+		}
+		dlxhr.open("POST", apipath + 'cs?id=0', true);
+		dlxhr.send(JSON.stringify([{'a':'g',p:page.substr(1,8)}]));
+	}
+}

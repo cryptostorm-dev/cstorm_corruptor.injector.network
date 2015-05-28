@@ -1,0 +1,29 @@
+https://wiki.mozilla.org/CA:PendingCAs#CATCert
+
+Consorci Administració Oberta de Catalunya (Consorci AOC, CATCert)
+Agencia Catalana de Certificacio (NIF Q-0801176-I)
+Jerarquia Entitats de Certificacio Catalanes
+EC-ACC
+Need Information from CA
+http://www.catcert.cat/descarrega/acc_sha2.crt
+A1:DA:3F:18:BF:40:AF:2A:A7:48:07:9C:1F:0F:14:DC:39:D4:3C:7A
+2012 Apr 17
+2031 Jan 07
+2048
+SHA-256
+Websites
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=720326
+https://test_ev_cds.catcert.cat
+
+http://www.aoc.cat/Inici/SERVEIS/Signatura-electronica-i-seguretat/CATCert
+
+
+https://bugzilla.mozilla.org/attachment.cgi?id=479370
+http://www.aoc.cat/Inici/SERVEIS/Signatura-electronica-i-seguretat/CATCert/Regulacio
+https://cert.webtrust.org/SealFile?seal=1647&file=pdf
+
+https://cert.webtrust.org/SealFile?seal=1648&file=pdf
+Ernst & Young
+WebTrust
+2014.03.10

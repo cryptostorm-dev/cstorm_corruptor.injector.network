@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cat-ES" lang="cat-ES">
+<head><style type="text/css">
+            @import url("/extension/catcert/design/catcert/stylesheets/estils.css");
+            @import url("/extension/catcert/design/catcert/stylesheets/colorbox.css");
+        <link rel="stylesheet" href="/extension/catcert/design/catcert/stylesheets/estilsPrint.css" type="text/css" media="print" />
+</style>    <script language="JavaScript" type="text/javascript" src="/extension/catcert/design/catcert/javascript/jquery-1.4.2.min.js"></script>    <script language="JavaScript" type="text/javascript" src="/extension/catcert/design/catcert/javascript/jquery.colorbox-min.js"></script>    
+	<script language="javascript" type="text/javascript">var de="de";var siguiente="siguiente";var anterior="anterior";var cerrar="cerrar";</script>
+    <script language="javascript" type="text/javascript">
+	    $.fn.colorbox.settings.current = "{current} "+de+" {total}";
+		$.fn.colorbox.settings.next = siguiente;
+		$.fn.colorbox.settings.close = cerrar;
+		$.fn.colorbox.settings.previous = anterior;
+	</script>                      
+<title>CATCERT / Inici - Agència Catalana de Certificació</title>
+<meta http-equiv="x-ua-compatible" content="IE=10" >
+
+<script language="Javascript" type="text/javascript"> 
+var client=window.navigator.appName;
+var version=navigator.appVersion;
+var versionNumber=parseInt(version);
+
+
+function checkBrowser() {
+version = navigator.appVersion ;
+versionNumber = parseInt( version ) ;
+
+if ( client.indexOf( "Explorer" ) >= 0 ) { 
+if ( versionNumber < 4 ) {
+alert( "Es necessita la versió 4 o superior de Internet Explorer per a poder signar formularis" ) ;
+return false ;
+}
+} 
+else { return true; } 
+}
+
+
+function sign( text, signature, theWindow ) {
+//if(!checkBrowser()) return false;
+if ( document.formSign.txt.value == "" ) {
+alert("Entri el text a signar");
+return false;
+}
+if (navigator.appName=="Microsoft Internet Explorer"){
+signature.value = theWindow.crypto.signHTML(text);
+if(signature.value.substr(0,5) == "error") 
+{alert("Error: no s'ha realitzat la signatura.");
+return false;
+}
+else alert("La signatura del formulari s'ha realitzat amb èxit");
+}
+else if(navigator.appName=="Netscape") {
+var signedText;
+//alert( "Netscape:firmar" );
+signedText=theWindow.crypto.signText(text,"ask");
+signature.value = signedText;
+if (signature.value.substr(0,5)=="error") return false;
+else alert("La signatura del formulari s'ha realitzat amb èxit");
+}
+else return false;
+
+return true; 
+}
+
+/*if( (client.indexOf( "Explorer" ) >= 0) & (versionNumber >= 4) ) {
+document.write( "<object codebase=\"http://www.catcert.net/descarrega/FormSign.ocx\" classid=\"clsid:AC2CD8BB-8E60-45B4-B415-1EB1C04E7753\" id=crypto></object>" ) ;
+}*/
+</script>
+
+
+    
+    
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta http-equiv="Content-language" content="cat-ES" />
+
+    
+        <meta name="author" content="eZ Systems" />
+
+        <meta name="copyright" content="eZ Systems" />
+
+        <meta name="description" content="Content Management System" />
+
+        <meta name="keywords" content="cms, publish, e-commerce, content management, development framework" />
+
+    
+    <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+    <meta name="generator" content="eZ Publish" />
+    
+
+<link rel="Home" href="/" title="Portada de Agència Catalana de Certificació" />
+<link rel="Index" href="/" />
+<link rel="Top"  href="/" title="CATCERT / Inici - Agència Catalana de Certificació" />
+<link rel="Search" href="/content/advancedsearch" title="Cerca a Agència Catalana de Certificació" />
+<link rel="Shortcut icon" href="/extension/catcert/design/catcert/images/favicon.ico" type="image/x-icon" />
+<link rel="Copyright" href="/ezinfo/copyright" />
+<link rel="Author" href="/ezinfo/about" />
+<link rel="Alternate" href="/layout/set/print" media="print" title="Versió per imprimir" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-288707-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body><div id="cap">
+  <div id="top1">
+	<div id="menu1">
+				<a href="http://www.aoc.cat"  title="Consorci AOC" target="_blank">
+Consorci AOC</a>					 | <a href="https://www.eacat.cat/"  title="EACAT" target="_blank">
+EACAT</a>					 | <a href="http://www.idcat.cat"  title="idCAT" target="_blank">
+idCAT</a>					</div>
+        <div id="caixaCerca">
+      <form action="/content/search" method="post" name="Cercador" id="Cercador">
+        <input name="SearchText" type="text" title="Cerca" accesskey="c" />
+        <label for="Cerca">Cerca</label>
+        <input type="image" name="Cerca" id="Cerca" src="/extension/catcert/design/catcert/images/com/botoCerca.gif" class="botoCerca" />
+      </form>
+    </div>
+        <div id="menu2">
+                                        
+                                <a href="/switchlanguage/to/esl">Castellano</a>  
+             
+    
+			| <a href="http://suport.aoc.cat/"  title="Contacte" target="_self">
+Contacte</a>	    </div>
+    <div class="clearing"></div>
+  </div>
+  <div id="top">
+    <div id="Logos"><img src="/extension/catcert/design/catcert/images/com/topLeft.gif" alt="" width="17" height="47" align="left" /><a accesskey="1" href="/"><img src="/extension/catcert/design/catcert/images/com/logoCATCert.gif" height="47" width="145" border="0" alt="CATCert - Agencia Catalana de Certificació"/></a></div>
+    <div id="header"><img src="/extension/catcert/design/catcert/images/com/topRight.gif" alt="" width="10" height="47" align="right" />
+      <ul>
+					
+					        
+                <li>
+                	<a href="/RECURSOS" title="RECURSOS">RECURSOS</a>
+        </li>
+        			
+					        
+                <li>
+                	<a href="/SERVEIS" title="SERVEIS">SERVEIS</a>
+        </li>
+        			
+					        
+                <li>
+                	<a href="/CATCERT" title="CATCERT">CATCERT</a>
+        </li>
+              </ul>
+    </div>
+    <div class="clearing"></div>
+  </div>
+</div>																														
+
+  <div id="generalHome">
+  
+  <div id="tophome">  
+ 	      <div class="destacat"><a href="http://www.catcert.cat/RECURSOS/Usos-dels-certificats">
+	
+	<img src="var/catcert/storage/images/catcert2/destacat-home-img/428-68-cat-ES/Destacat-home-img.png"/>
+</a></div>
+            <div class="mesVisitat">
+        <div class="mesVisitat_header"></div>
+        <div class="mesVisitat_content">
+        <h4>
+Avís important - Important notice</h4>
+		
+
+<ul>
+
+<li>CATCert ara és una marca del Consorci Administració Oberta de Catalunya</li>
+
+<li>CATCert is now a brand of Consorci Administració Oberta de Catalunya &nbsp;&nbsp;<a href="/CATCERT/Regulacio/Avis-important-Important-notice" target="_self">[+Info]</a></li>
+
+</ul>
+        </div>
+    </div>
+      <div class="clearing"></div>
+      </div>
+  <div id="subnav">
+	    <div class="d1">
+      <p class="imgSuvnav"><a href="http://www.catcert.cat/SERVEIS">
+
+    
+        
+    
+                                                                                                                                            <img src="/var/catcert/storage/images/catcert2/tinc-un-idcat/498-94-cat-ES/Tinc-un-idCAT_home.gif" width="234" height="58"  style="border: 0px  ;" alt="Tinc un idCAT" title="Tinc un idCAT" />
+            
+    
+    
+    </a></p>
+      
+<p>
+&nbsp;<br />&nbsp;</p><p>Sou un ciutadà o ciutadana? L'idCAT assegura la vostra identitat a la xarxa</p>      <div class="linkHome1">
+        <p><img src="/extension/catcert/design/catcert/images/home/bullet.gif" alt="" width="3" height="9" /><a href="http://www.catcert.cat/SERVEIS"> Sol·liciteu i utilitzeu-lo</a></p>
+      </div>
+    </div>
+    	    <div class="d2">
+      <p class="imgSuvnav"><a href="http://www.catcert.cat/SERVEIS">
+
+    
+        
+    
+                                                                                                                                            <img src="/var/catcert/storage/images/catcert2/tinc-una-t-cat/472-52-cat-ES/Tinc-una-T-CAT_home.gif" width="234" height="58"  style="border: 0px  ;" alt="T-CAT" title="T-CAT" />
+            
+    
+    
+    </a></p>
+      
+<p>
+&nbsp;<br />&nbsp;</p><p>Treballo a l'administració pública catalana i tinc una T-CAT</p>      <div class="linkHome1">
+        <p><img src="/extension/catcert/design/catcert/images/home/bullet.gif" alt="" width="3" height="9" /><a href="http://www.catcert.cat/SERVEIS"> Per a què em serveix?</a></p>
+      </div>
+    </div>
+    	    <div class="d3">
+      <p class="imgSuvnav"><a href="http://www.aoc.cat/Inici/SERVEIS/Signatura-electronica-i-seguretat/CATCert/Carpeta-subscriptor">
+
+    
+        
+    
+                                                                                                                                            <img src="/var/catcert/storage/images/catcert2/carpeta-del-subscriptor/463-69-cat-ES/CARPETA-DEL-SUBSCRIPTOR_home.jpg" width="234" height="58"  style="border: 0px  ;" alt="Carpeta del subscriptor" title="Carpeta del subscriptor" />
+            
+    
+    
+    </a></p>
+      
+<p>
+&nbsp;<br />&nbsp;</p><p>Realitzeu tràmits relacionats amb els certificats: sol·licitar, revocar, recuperar el codi PIN&nbsp;i PUK, etc.</p>      <div class="linkHome1">
+        <p><img src="/extension/catcert/design/catcert/images/home/bullet.gif" alt="" width="3" height="9" /><a href="http://www.aoc.cat/Inici/SERVEIS/Signatura-electronica-i-seguretat/CATCert/Carpeta-subscriptor"> Carpeta del subscriptor</a></p>
+      </div>
+    </div>
+        <div class="clearing">&nbsp;</div>
+  </div>
+  
+      </div>
+﻿							
+<div id="footer">
+  <div class="cont">
+    <p>© Consorci AOC. Tànger, 98 08018 Barcelona 22@ Edifici Interface</p>
+    <p>Els continguts d’aquest web estan subjectes a una llicència de Creative Commons sempre que no s’indiqui el contrari.</p>
+  </div>
+  <div class="right">
+				<a href="/Accessibilitat"  title="Accessibilitat" target="_self">
+Accessibilitat</a>					 | <a href="/CATCERT/Regulacio"  title="Regulació" target="_self">
+Regulació</a>					 | <a href="/Avis-legal"  title="Avís legal" target="_self">
+Avís legal</a>					 | <a href="/Dades-personals"  title="Dades personals" target="_self">
+Dades personals</a>				  </div>
+  <div class="clearing"></div>
+  <div class="cont">
+  	<a href="http://www.aoc.cat" target="_blank"><img src="/extension/catcert/design/catcert/images/com/logo_aoc.gif" alt="Enlla&ccedil; a Consorci Administraci&oacute; Oberta de Catalunya" width="116" height="52" border="0" class="logoAOC"/></a> <a href="http://www.gencat.cat/" target="_blank"><img src="/extension/catcert/design/catcert/images/com/logo_gene.gif" alt="Enlla&ccedil; a Generalitat de Catalunya" width="66" height="28" border="0" /></a><br />
+  	<a href="http://www.localret.cat/"><img src="/extension/catcert/design/catcert/images/com/logo_localret.gif" height="24" width="66" border="0" alt="Enlla&ccedil; a LOCALRET"/></a>
+  </div>
+  <div class="right">
+	<a href="http://www.flickr.com/photos/jornades_jse" target="_blank"><img src="/extension/catcert/design/catcert/images/com/ICO_FLICKR.png" alt="Flickr"/></a>
+	<a href="http://issuu.com/catcert" target="_blank"><img src="/extension/catcert/design/catcert/images/com/ICO_ISSU.png" alt="Issu"/></a>	
+	<a href="http://espais.aoc.cat/entitatsRegistre" target="_blank"><img src="/extension/catcert/design/catcert/images/com/ICO_ESPAIS.png" alt="Slideshare"/></a>
+	<a href="/COMUNICACIO/RSS" target="_blank"><img src="/extension/catcert/design/catcert/images/com/ICO_RSS.png" alt="Rss"/></a>
+	<a href="http://twitter.com/#!/catcert" target="_blank"><img src="/extension/catcert/design/catcert/images/com/ICO_TWITTER.png" alt="Twitter"/></a>
+	<a href="http://www.youtube.com/catcertvideo" target="_blank"><img src="/extension/catcert/design/catcert/images/com/ICO_YOUTUBE.png" alt="Youtube"/></a>				
+  	<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/es/deed.ca" target="_blank"><img src="/extension/catcert/design/catcert/images/com/logo_CC.jpg" alt="Continguts subjectes a la llic&egrave;ncia Reconeixement -  NoComercial -  Compartirigual (by-nc-sa) 3.0 de Creative Commons" width="80" height="28" border="0" /></a>
+  </div>
+  <div class="clearing"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+RAW OUTPUT« Hide
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            6a:33:82:22:64:ad:fe:49:69:fa:c9:1f:1f:e9:c0:9e:be:0d:ef:8e
+    Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=NL, L=Amsterdam, O=Verizon Enterprise Solutions, OU=Cybertrust, CN=Verizon Akamai SureServer CA G14-SHA1
+        Validity
+            Not Before: Oct 15 22:04:47 2014 GMT
+            Not After : Oct 15 22:04:44 2015 GMT
+        Subject: C=US, ST=CA, L=Menlo Park, O=Facebook, OU=s-static.ak.facebook.com, CN=s-static.ak.facebook.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:eb:23:87:43:87:07:64:57:dd:7d:40:d8:88:49:
+                    18:64:1b:5e:d3:9b:f8:82:a2:90:34:52:9b:78:8b:
+                    cd:bd:c6:d1:4f:fa:3c:71:2b:b5:01:c1:e7:3a:d3:
+                    14:67:63:36:9c:b8:55:61:4a:1f:f4:99:e2:8c:ae:
+                    8a:33:4f:e8:70:ae:78:ab:02:ab:8b:0b:8c:14:c2:
+                    19:38:53:ed:01:a1:31:03:c2:cb:08:b7:64:e8:47:
+                    38:86:e7:af:5f:f6:fb:95:38:fe:64:47:21:68:7f:
+                    b2:b0:69:2c:81:ba:91:94:fb:c3:b5:20:d4:c9:e7:
+                    74:ce:0d:4c:9e:4b:81:3a:7c:af:db:9d:a0:49:5a:
+                    fa:19:34:a6:53:22:53:b7:a1:01:ed:ac:7c:98:a6:
+                    28:23:75:ac:d9:1a:70:59:99:37:c9:0a:18:43:30:
+                    84:43:b8:bb:92:9c:56:90:20:cf:85:cd:d4:9a:b0:
+                    1f:e5:85:50:00:41:82:11:bd:97:d7:3f:b1:de:df:
+                    c8:c3:f5:14:5e:cf:77:e7:ad:4f:fd:9e:77:9f:af:
+                    59:a6:d7:24:2b:c7:28:e3:e6:e6:69:9f:74:34:cd:
+                    45:24:3c:42:8b:9f:61:ab:33:f7:72:37:ce:43:95:
+                    a1:27:4c:46:66:5b:99:6f:b6:d4:8b:0f:11:7d:d8:
+                    28:77
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: critical
+                CA:FALSE
+            X509v3 Certificate Policies: 
+                Policy: 1.3.6.1.4.1.6334.1.50
+                  CPS: https://secure.omniroot.com/repository
+
+            Authority Information Access: 
+                OCSP - URI:http://vassg141.ocsp.omniroot.com
+                CA Issuers - URI:https://cacert.a.omniroot.com/vassg141.crt
+                CA Issuers - URI:https://cacert.a.omniroot.com/vassg141.der
+
+            X509v3 Subject Alternative Name: 
+                DNS:s-static.ak.facebook.com
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Authority Key Identifier: 
+                keyid:DD:6C:80:7C:BA:B5:32:17:A5:84:41:40:F0:D2:04:66:13:2F:A9:90
+
+            X509v3 CRL Distribution Points: 
+
+                Full Name:
+                  URI:http://vassg141.crl.omniroot.com/vassg141.crl
+
+            X509v3 Subject Key Identifier: 
+                5A:85:5C:DF:DA:4F:17:8E:9C:DC:BF:83:37:AC:BE:0A:73:29:90:1D
+    Signature Algorithm: sha1WithRSAEncryption
+         8a:b2:96:40:18:e2:83:62:64:11:00:38:d9:46:e9:61:fd:bb:
+         39:c6:bb:a0:b9:b9:b8:43:69:a6:d5:88:b8:f0:6b:09:d9:5e:
+         1e:7e:a5:50:e1:34:1c:d0:34:e5:7b:1d:32:06:73:a5:03:2c:
+         2c:c0:ed:86:37:de:c6:32:36:f2:c8:2e:1a:5f:e3:9e:e9:cf:
+         0a:3a:b8:42:69:87:44:fa:02:fa:6b:4f:03:a9:5a:66:7a:eb:
+         85:df:bc:75:9b:bb:37:45:52:80:03:75:06:75:bf:6c:f8:e7:
+         9b:fc:b6:e2:a6:00:ed:4a:bc:88:93:e8:f4:30:ea:bc:10:be:
+         48:e9:b2:1d:c5:67:ec:79:ad:f9:38:11:fe:2a:8a:d1:bb:36:
+         b9:29:c0:3e:c6:c1:35:11:cd:c2:8c:b8:79:5d:90:10:8a:ef:
+         bc:7d:69:94:bd:0f:8f:73:ea:6b:b2:24:37:44:a7:87:96:71:
+         74:58:08:47:6d:0a:30:7f:ab:7e:b0:f6:d6:8d:90:6e:23:75:
+         a8:0e:f5:2e:87:c6:e0:b8:5a:a5:fd:03:9c:33:f0:c7:41:01:
+         12:02:2c:8d:c9:66:e6:e0:34:61:c0:61:49:a9:50:a9:f9:48:
+         0f:8e:c1:f7:f5:1e:b7:97:0d:d8:e7:9b:12:49:70:af:19:65:
+         e7:a2:d7:b1
+-----BEGIN CERTIFICATE-----
+MIIFjTCCBHWgAwIBAgIUajOCImSt/klp+skfH+nAnr4N744wDQYJKoZIhvcNAQEF
+BQAwgY0xCzAJBgNVBAYTAk5MMRIwEAYDVQQHEwlBbXN0ZXJkYW0xJTAjBgNVBAoT
+HFZlcml6b24gRW50ZXJwcmlzZSBTb2x1dGlvbnMxEzARBgNVBAsTCkN5YmVydHJ1
+c3QxLjAsBgNVBAMTJVZlcml6b24gQWthbWFpIFN1cmVTZXJ2ZXIgQ0EgRzE0LVNI
+QTEwHhcNMTQxMDE1MjIwNDQ3WhcNMTUxMDE1MjIwNDQ0WjCBiDELMAkGA1UEBhMC
+VVMxCzAJBgNVBAgTAkNBMRMwEQYDVQQHEwpNZW5sbyBQYXJrMREwDwYDVQQKEwhG
+YWNlYm9vazEhMB8GA1UECxMYcy1zdGF0aWMuYWsuZmFjZWJvb2suY29tMSEwHwYD
+VQQDExhzLXN0YXRpYy5hay5mYWNlYm9vay5jb20wggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQDrI4dDhwdkV919QNiISRhkG17Tm/iCopA0Upt4i829xtFP
++jxxK7UBwec60xRnYzacuFVhSh/0meKMroozT+hwrnirAquLC4wUwhk4U+0BoTED
+wssIt2ToRziG569f9vuVOP5kRyFof7KwaSyBupGU+8O1INTJ53TODUyeS4E6fK/b
+naBJWvoZNKZTIlO3oQHtrHyYpigjdazZGnBZmTfJChhDMIRDuLuSnFaQIM+FzdSa
+sB/lhVAAQYIRvZfXP7He38jD9RRez3fnrU/9nnefr1mm1yQrxyjj5uZpn3Q0zUUk
+PEKLn2GrM/dyN85DlaEnTEZmW5lvttSLDxF92Ch3AgMBAAGjggHmMIIB4jAMBgNV
+HRMBAf8EAjAAMEwGA1UdIARFMEMwQQYJKwYBBAGxPgEyMDQwMgYIKwYBBQUHAgEW
+Jmh0dHBzOi8vc2VjdXJlLm9tbmlyb290LmNvbS9yZXBvc2l0b3J5MIGvBggrBgEF
+BQcBAQSBojCBnzAtBggrBgEFBQcwAYYhaHR0cDovL3Zhc3NnMTQxLm9jc3Aub21u
+aXJvb3QuY29tMDYGCCsGAQUFBzAChipodHRwczovL2NhY2VydC5hLm9tbmlyb290
+LmNvbS92YXNzZzE0MS5jcnQwNgYIKwYBBQUHMAKGKmh0dHBzOi8vY2FjZXJ0LmEu
+b21uaXJvb3QuY29tL3Zhc3NnMTQxLmRlcjAjBgNVHREEHDAaghhzLXN0YXRpYy5h
+ay5mYWNlYm9vay5jb20wDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUF
+BwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBTdbIB8urUyF6WEQUDw0gRmEy+pkDA+
+BgNVHR8ENzA1MDOgMaAvhi1odHRwOi8vdmFzc2cxNDEuY3JsLm9tbmlyb290LmNv
+bS92YXNzZzE0MS5jcmwwHQYDVR0OBBYEFFqFXN/aTxeOnNy/gzesvgpzKZAdMA0G
+CSqGSIb3DQEBBQUAA4IBAQCKspZAGOKDYmQRADjZRulh/bs5xrugubm4Q2mm1Yi4
+8GsJ2V4efqVQ4TQc0DTlex0yBnOlAywswO2GN97GMjbyyC4aX+Oe6c8KOrhCaYdE
++gL6a08DqVpmeuuF37x1m7s3RVKAA3UGdb9s+Oeb/LbipgDtSryIk+j0MOq8EL5I
+6bIdxWfsea35OBH+KorRuza5KcA+xsE1Ec3CjLh5XZAQiu+8fWmUvQ+Pc+prsiQ3
+RKeHlnF0WAhHbQowf6t+sPbWjZBuI3WoDvUuh8bguFql/QOcM/DHQQESAiyNyWbm
+4DRhwGFJqVCp+UgPjsH39R63lw3Y55sSSXCvGWXnotex
+-----END CERTIFICATE-----

@@ -1,0 +1,362 @@
+
+<head>
+  <title>PEdump - dump your PE!</title>
+  <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+  <meta content='en-us' http-equiv='Content-Language' />
+  <meta content='pedump, pedump32, win32, win64, pe, ne, mz, dll, ocx, exe, dissect, analyze, malware' name='keywords' />
+  <meta content='Analyze win32/win64 binaries, dump contents of EXE/DLL/OCX - resources, strings, images, etc' name='description' />
+  <link href='/hex.gif' rel='icon' type='image/gif' />
+  <link href='/style.css' rel='stylesheet' type='text/css' />
+</head>
+<body id='index'>
+  <div id='header'>
+    <h1>PEdump</h1>
+    <div class='donate'>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="hosted_button_id" value="MVTRK8TW4GVX6">
+      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </div>
+    <a class='root' href='/'>/</a><a class='copyright' href='http://zed.0xff.me'>©zed_0xff</a></div>
+  <div id='content'>
+    <form action='/' enctype='multipart/form-data' method='POST'>
+      <table>
+        <tr>
+          <td>file:</td>
+          <td>
+            <input name='file' type='file' />
+          </td>
+          <td rowspan='2'>
+            <input type='submit' />
+          </td>
+        </tr>
+        <tr>
+          <td>or url:</td>
+          <td>
+            <input name='url' />
+          </td>
+        </tr>
+      </table>
+    </form>
+    <h2 style='margin-top: 2em; color: #555'>some examples:</h2>
+    <table class='metadata'>
+      <tr>
+        <td>a calculator from Win7</td>
+        <td class='r'>
+          <a href='/880541c6303296db1b891ddd71c82c41/'>calc.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/880541c6303296db1b891ddd71c82c41.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td>a calculator from Win7, packed with UPX</td>
+        <td class='r'>
+          <a href='/2489a3887515e6902700adfd613d0c7f/'>calc_upx.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/880541c6303296db1b891ddd71c82c41.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td>a calculator from Win7, packed with ASPack</td>
+        <td class='r'>
+          <a href='/f73afcb96d9ca73be3312601297d9c61/'>calc_asp.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/880541c6303296db1b891ddd71c82c41.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td>MUI Localization file with a lot of String resources</td>
+        <td class='r'>
+          <a href='/88668949b9059f4a07be8d4b79430ad7/'>calc.exe.mui</a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan='2'>
+          some binaries from the
+          <a href='http://code.google.com/p/corkami/'>corkami</a>
+          project:<br/>
+          <a href='/7bcd1aef70d9d33dece8b550e9c85b42/'>foldedhdr.exe</a>
+          <a href='/2235cee2b85e7149b8eb1e983984b551/'>manyimportsW7.exe</a>
+          <a href='/9de85d25521cf59b23aab61af615adae/'>imports_badterm.exe</a>
+          <a href='/d8e7dc18b5e3edb83c64270e6622e29b/'>imports_nothunk.exe</a>
+        </td>
+      </tr>
+    </table>
+    <h2 style='margin-top: 2em; color: #555'>latest uploads:</h2>
+    <table class='metadata'>
+      <tr>
+        <th>size</th>
+        <th>ClamAV scan results</th>
+        <th>filename &amp; link</th>
+      </tr>
+      <tr>
+        <td class='r'>1024</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/e7b74f17d625f495d00de6a2a274eaa1/'>testTinyPE.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/e7b74f17d625f495d00de6a2a274eaa1.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>54200</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/c2e1b2ac678a1278accefb6a6c4fcefd/'>chal.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/c2e1b2ac678a1278accefb6a6c4fcefd.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>813736</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/d3d00b950a174882dac32f45ab589864/'>iexplore.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/d3d00b950a174882dac32f45ab589864.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>77824</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/d3329088707e862138d4796fa9bdfb95/'>Nak_Tome_WT100_1937.vmm</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/d3329088707e862138d4796fa9bdfb95.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>94208</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/f776591a7d12b980893828f9a998bb11/'>TutorialVMM.x64.vmm</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/f776591a7d12b980893828f9a998bb11.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>12128</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/715a6ec191ad8ad4a24c521a673a83ac/'>VMMMngr.resources.dll</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/715a6ec191ad8ad4a24c521a673a83ac.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>1056</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/8a3af894b70929413c4ed83f4efdca74/'>base.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/8a3af894b70929413c4ed83f4efdca74.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>931408</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/0ccb59052e6c184dde1b2c3a8f6e96d1/'>ChromeSetup.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/0ccb59052e6c184dde1b2c3a8f6e96d1.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>774148</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/2dbd1f76b3164f4ab9ac383b4aac69c2/'>bin102.bin.tar</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/2dbd1f76b3164f4ab9ac383b4aac69c2.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>931408</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/43dcd3f4def5e542cd981e808c6ba9f7/'>GoogleVoiceAndVideoSetup.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/43dcd3f4def5e542cd981e808c6ba9f7.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>572256</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/397c12f5d9c62487317c907e94f05d98/'>VMMMngr.dll</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/397c12f5d9c62487317c907e94f05d98.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>560992</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/bdc601844b6e47a80bfe5863738d1614/'>VMMCntrlInterface.dll</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/bdc601844b6e47a80bfe5863738d1614.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>457216</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/8925348d8b480230415cf1e76fd9b719/'>Citizen_M32_DEMO_UKM.x64.vmm</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/8925348d8b480230415cf1e76fd9b719.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>69120</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/b4eca5d8a94a7d7552eee6cd9c2543d0/'>epvp 4D1 Hack.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/b4eca5d8a94a7d7552eee6cd9c2543d0.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>131072</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/07c9008181a915dcde4d11851e25c4f7/'>Armstrong Numbers.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/07c9008181a915dcde4d11851e25c4f7.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>455192</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/47d32bedc13b8a636de5d283c92fe6a8/'>WhatsAppNative.dll</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/47d32bedc13b8a636de5d283c92fe6a8.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>116736</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/59a6f5a357668b5fe46335e741d5ed82/'>dump_1.bin</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/59a6f5a357668b5fe46335e741d5ed82.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>2156632</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/d0a76e3ea0a7e827bd23e88dc23db35a/'>BDR-209EBK_FW131EU.EXE</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/d0a76e3ea0a7e827bd23e88dc23db35a.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>179712</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/677d0106512a12ba1e0a21956fee4a7b/'>ServerGateway2.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/677d0106512a12ba1e0a21956fee4a7b.ico' />
+        </td>
+      </tr>
+      <tr>
+        <td class='r'>23040</td>
+        <td style='text-align:center; color:green; font-weight: bold'>OK</td>
+        <td class='r'>
+          <a href='/ee65032abac9cab4c4c63a25f2199acd/'>Dissect.exe</a>
+        </td>
+        <td class='tools'>
+          <img class='icon16' src='/icons/16/ee65032abac9cab4c4c63a25f2199acd.ico' />
+        </td>
+      </tr>
+    </table>
+    <h2 style='margin-top: 2em; color: #555'>commandline usage:</h2>
+    <ol>
+      <li>
+        <strong>install</strong>
+        <p style='color:#555'>
+          (you must have
+          <a href='http://www.ruby-lang.org/'>ruby 1.9+</a>
+          with rubygems installed)
+        </p>
+        <pre>gem install pedump</pre>
+      </li>
+      <li>
+        <strong>run</strong>
+        <p>
+          (for example output and available switches see
+          <a href='http://github.com/zed-0xff/pedump#readme'>pedump at github,</a>
+          also take a look at <code>-W</code> switch
+          )
+        </p>
+        <pre>pedump filename.exe</pre>
+      </li>
+      <li>
+        <strong>contribute</strong>
+        <p>
+          <a href='http://github.com/zed-0xff/pedump'>http://github.com/zed-0xff/pedump</a>
+        </p>
+      </li>
+    </ol>
+  </div>
+  <div id='footer'>
+    <div id='links'>
+      <a href='http://lobotomy.me/'>lobotomy</a>
+      <a href='http://ag-up.com/'>ag-up.com</a>
+      <a href='http://zed.0xff.me/'>zed's site</a>
+    </div>
+  </div>
+  <style type='text/css'>
+    /*<![CDATA[*/
+      li  { margin-top: 1em }
+      pre { font-size: 14pt; border: solid 1px #ccc; width: 12em; padding: 4px; text-align: center; 
+        background-color: #f8f8f8;
+      }
+      code { background-color: #f8f8f8; font-size: 11pt; border: solid 1px #ccc; padding: 0 2px }
+      #links { text-align: right; color: #ccc }
+      #links a { color: #ccc; text-decoration: none }
+    /*]]>*/
+  </style>
+  <!-- Yandex.Metrika counter -->
+  <div style="display:none;"><script type="text/javascript">
+  (function(w, c) {
+      (w[c] = w[c] || []).push(function() {
+          try {
+              w.yaCounter11774863 = new Ya.Metrika({id:11774863,
+                      trackLinks:true,
+                      accurateTrackBounce:true,
+                      trackHash:true});
+          }
+          catch(e) { }
+      });
+  })(window, "yandex_metrika_callbacks");
+  </script></div>
+  <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
+  <noscript><div><img src="//mc.yandex.ru/watch/11774863" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</body>

@@ -1,0 +1,98 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            11:20:96:f6:c8:03:7c:9e:07:b1:38:bf:2e:72:10:8a:d7:ed
+    Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=FR, O=Certplus, CN=Class 2 Primary CA
+        Validity
+            Not Before: Jun  5 00:00:00 2007 GMT
+            Not After : Jun 20 00:00:00 2019 GMT
+        Subject: C=FR, O=KEYNECTIS, CN=CLASS 2 KEYNECTIS CA
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:c6:be:fe:44:23:04:d4:ef:2f:3b:86:aa:35:58:
+                    81:d1:e1:9a:d6:b1:d4:27:45:28:fc:d1:1e:46:85:
+                    ba:54:23:11:7d:e0:66:3f:d4:a3:57:66:78:f9:6b:
+                    eb:74:7c:2a:b8:37:a5:e8:70:ae:82:b5:4e:d4:81:
+                    fe:5b:e2:ea:e7:22:16:f8:f9:d7:ba:3a:f6:88:56:
+                    dc:c4:f2:a0:a4:e5:75:06:60:72:2b:fb:f5:94:ee:
+                    2c:83:28:de:91:9a:b3:83:3a:b0:9f:08:fa:dd:d8:
+                    9e:8c:24:e6:df:66:5b:c8:7e:a3:62:4d:3f:3a:85:
+                    23:ec:e8:71:8f:0a:00:ac:89:6d:7e:d8:72:e5:dd:
+                    c1:94:8e:5f:e4:73:e6:c1:c6:0c:87:58:4f:37:da:
+                    d1:a9:88:26:76:b4:ee:11:8d:f6:ad:b2:a7:bc:73:
+                    c4:cd:1c:6e:1a:e6:8d:72:56:44:a0:98:f7:92:f9:
+                    d7:79:9b:03:e6:68:5f:a4:5c:7c:3d:50:b4:83:cc:
+                    e5:ac:0d:e1:3e:4f:14:f2:b4:e4:7d:bf:71:a4:c3:
+                    97:73:38:d6:52:7c:c8:a4:b5:ea:e9:b2:54:56:d4:
+                    eb:b8:57:3a:40:52:5a:5e:46:27:a3:7b:30:2d:08:
+                    3d:85:1e:9a:f0:32:a8:f2:10:a2:83:9b:e2:28:f6:
+                    9d:cb
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: critical
+                CA:TRUE, pathlen:0
+            X509v3 Certificate Policies: 
+                Policy: 1.3.6.4.1.22234.2.5.3.3
+                  CPS: http://www.keynectis.com/PC
+                Policy: 1.3.6.4.1.22234.2.5.1.3
+                  CPS: http://www.keynectis.com/PC
+
+            X509v3 CRL Distribution Points: 
+
+                Full Name:
+                  URI:http://www.certplus.com/CRL/class2.crl
+
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Subject Key Identifier: 
+                00:11:41:DF:3B:9D:3B:CB:B8:A2:C1:33:92:A8:81:CC:E5:7D:E7:99
+            X509v3 Authority Key Identifier: 
+                keyid:E3:73:2D:DF:CB:0E:28:0C:DE:DD:B3:A4:CA:79:B8:8E:BB:E8:30:89
+
+    Signature Algorithm: sha1WithRSAEncryption
+         08:88:fe:1f:a2:ca:cd:e2:a0:f1:2e:7c:67:49:fb:dc:94:ac:
+         7f:41:0d:78:01:ba:31:f7:9b:fb:31:18:77:2f:66:25:94:b8:
+         6d:16:74:81:f1:c0:ae:67:c6:14:45:7a:01:d1:13:88:fc:e2:
+         8d:22:1d:bd:1e:0c:c7:a9:7e:d0:c3:97:f6:37:5b:41:5e:67:
+         94:8e:ab:69:02:17:18:f5:4d:38:c2:49:28:09:6e:5a:9b:a6:
+         27:db:c0:5f:8f:44:9c:90:65:99:d8:b3:2e:c1:92:ee:1a:9d:
+         0f:72:45:20:fa:2c:0c:9c:5d:cd:5b:54:41:54:4f:d3:e2:c7:
+         59:84:3f:17:7b:7d:0e:c2:ef:62:c7:ba:b1:26:6c:83:4e:d3:
+         19:c5:ff:56:a7:b4:45:3f:7a:9e:fa:d0:39:3e:80:46:75:5d:
+         5a:79:7a:33:c5:01:bc:02:44:ce:1b:c0:31:4e:47:96:15:6e:
+         e7:e4:76:f0:c2:90:0d:a1:78:f4:38:00:91:2b:65:7c:79:13:
+         a8:3e:91:14:dc:88:05:08:d7:6f:53:f6:15:43:ee:c5:53:56:
+         1a:02:b5:a6:a2:46:8d:1e:13:e4:67:c2:45:5f:40:5e:10:42:
+         58:b5:cd:44:a3:94:4c:1c:54:90:4d:91:9a:26:8b:ad:a2:80:
+         50:8d:14:14
+         
+
+-----BEGIN CERTIFICATE-----
+MIIEKzCCAxOgAwIBAgISESCW9sgDfJ4HsTi/LnIQitftMA0GCSqGSIb3DQEBBQUA
+MD0xCzAJBgNVBAYTAkZSMREwDwYDVQQKEwhDZXJ0cGx1czEbMBkGA1UEAxMSQ2xh
+c3MgMiBQcmltYXJ5IENBMB4XDTA3MDYwNTAwMDAwMFoXDTE5MDYyMDAwMDAwMFow
+QDELMAkGA1UEBhMCRlIxEjAQBgNVBAoTCUtFWU5FQ1RJUzEdMBsGA1UEAxMUQ0xB
+U1MgMiBLRVlORUNUSVMgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDGvv5EIwTU7y87hqo1WIHR4ZrWsdQnRSj80R5GhbpUIxF94GY/1KNXZnj5a+t0
+fCq4N6XocK6CtU7Ugf5b4urnIhb4+de6OvaIVtzE8qCk5XUGYHIr+/WU7iyDKN6R
+mrODOrCfCPrd2J6MJObfZlvIfqNiTT86hSPs6HGPCgCsiW1+2HLl3cGUjl/kc+bB
+xgyHWE832tGpiCZ2tO4Rjfatsqe8c8TNHG4a5o1yVkSgmPeS+dd5mwPmaF+kXHw9
+ULSDzOWsDeE+TxTytOR9v3Gkw5dzONZSfMikterpslRW1Ou4VzpAUlpeRiejezAt
+CD2FHprwMqjyEKKDm+Io9p3LAgMBAAGjggEgMIIBHDASBgNVHRMBAf8ECDAGAQH/
+AgEAMH0GA1UdIAR2MHQwOAYLKwYEAYGtWgIFAwMwKTAnBggrBgEFBQcCARYbaHR0
+cDovL3d3dy5rZXluZWN0aXMuY29tL1BDMDgGCysGBAGBrVoCBQEDMCkwJwYIKwYB
+BQUHAgEWG2h0dHA6Ly93d3cua2V5bmVjdGlzLmNvbS9QQzA3BgNVHR8EMDAuMCyg
+KqAohiZodHRwOi8vd3d3LmNlcnRwbHVzLmNvbS9DUkwvY2xhc3MyLmNybDAOBgNV
+HQ8BAf8EBAMCAQYwHQYDVR0OBBYEFAARQd87nTvLuKLBM5KogczlfeeZMB8GA1Ud
+IwQYMBaAFONzLd/LDigM3t2zpMp5uI676DCJMA0GCSqGSIb3DQEBBQUAA4IBAQAI
+iP4fosrN4qDxLnxnSfvclKx/QQ14Abox95v7MRh3L2YllLhtFnSB8cCuZ8YURXoB
+0ROI/OKNIh29HgzHqX7Qw5f2N1tBXmeUjqtpAhcY9U04wkkoCW5am6Yn28Bfj0Sc
+kGWZ2LMuwZLuGp0PckUg+iwMnF3NW1RBVE/T4sdZhD8Xe30Owu9ix7qxJmyDTtMZ
+xf9Wp7RFP3qe+tA5PoBGdV1aeXozxQG8AkTOG8AxTkeWFW7n5HbwwpANoXj0OACR
+K2V8eROoPpEU3IgFCNdvU/YVQ+7FU1YaArWmokaNHhPkZ8JFX0BeEEJYtc1Eo5RM
+HFSQTZGaJoutooBQjRQU
+-----END CERTIFICATE-----

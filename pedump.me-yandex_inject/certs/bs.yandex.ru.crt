@@ -1,0 +1,120 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            11:27:d3:33:a4:40:7f:cc:a7:6e:c8:32:03:86:d8:6a:28:85
+    Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=FR, O=KEYNECTIS, CN=CLASS 2 KEYNECTIS CA
+        Validity
+            Not Before: Dec 18 08:53:03 2014 GMT
+            Not After : Dec 31 08:53:03 2015 GMT
+        Subject: C=RU, ST=Russia, L=Moscow, OU=ITO, O=Yandex, CN=bs.yandex.ru
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:bf:9f:b5:a0:ae:7f:db:8c:f1:2b:54:f0:f8:3c:
+                    3c:3e:d5:83:5a:e8:7c:9f:f4:be:3f:9a:5e:8b:47:
+                    a6:3d:f4:bb:91:3b:45:59:8b:27:10:cf:08:94:f8:
+                    79:9c:0a:a9:60:42:38:90:b7:f0:b7:7b:e4:3c:6d:
+                    1d:2c:d4:3d:da:2d:cc:6e:d0:96:52:77:01:34:c9:
+                    67:09:99:4c:51:95:35:6f:8d:84:22:5a:b4:81:7d:
+                    28:a0:d2:a9:f6:07:ee:2b:f1:82:a5:3a:01:d9:83:
+                    6a:28:24:b2:e5:3f:05:a6:fc:8a:f1:8a:54:b1:45:
+                    0b:dd:7b:16:f8:70:d3:35:77:5c:12:89:c6:d7:b9:
+                    03:5f:f9:02:e1:cd:25:01:1e:e3:d2:00:55:43:e7:
+                    f4:c2:21:34:8b:06:e2:31:81:42:2c:b0:e4:59:7c:
+                    b7:b1:c4:50:40:45:92:03:e5:9b:60:f8:65:14:f0:
+                    ae:d2:8d:51:e7:7f:a4:04:dd:67:ba:86:e4:fe:1e:
+                    5c:d5:79:d1:30:11:93:ec:5f:6b:66:dc:e4:7a:19:
+                    54:4f:d4:28:88:bc:15:51:57:c2:2d:82:a7:ab:9e:
+                    cb:3a:9c:e6:a0:81:01:3f:4b:6e:12:33:fd:a2:b2:
+                    92:d5:cd:d2:04:f6:12:27:b1:00:e7:ab:e1:af:cd:
+                    8f:cb
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Subject Alternative Name: 
+                DNS:bs.yandex.ru, DNS:bs.yandex.ru, DNS:bs.yandex.ua, DNS:bs.yandex.by, DNS:bs.yandex.kz, DNS:bs.yandex.com, DNS:bs.yandex.com.tr, DNS:an.yandex.ru, DNS:an.yandex.ua, DNS:an.yandex.by, DNS:an.yandex.kz, DNS:an.yandex.com, DNS:an.yandex.com.tr, DNS:yabs.yandex.ru, DNS:yabs.yandex.ua, DNS:yabs.yandex.by, DNS:yabs.yandex.kz, DNS:yabs.yandex.com, DNS:yabs.yandex.com.tr, DNS:bs-meta.yandex.ru, DNS:bs-meta.yandex.ua, DNS:bs-meta.yandex.by, DNS:bs-meta.yandex.kz, DNS:bs-meta.yandex.com, DNS:bs-meta.yandex.com.tr, DNS:mc.yandex.ru, DNS:mc.yandex.ua, DNS:mc.yandex.by, DNS:mc.yandex.kz, DNS:mc.yandex.com, DNS:mc.yandex.com.tr, DNS:informer.yandex.ru, DNS:informer.yandex.ua, DNS:informer.yandex.by, DNS:informer.yandex.kz, DNS:informer.yandex.com, DNS:informer.yandex.com.tr, DNS:yandexadexchange.net, DNS:kiks.yandex.ru, DNS:kiks.yandex.ua, DNS:kiks.yandex.by, DNS:kiks.yandex.kz, DNS:kiks.yandex.com, DNS:kiks.yandex.com.tr
+            X509v3 CRL Distribution Points: 
+
+                Full Name:
+                  URI:http://crl-ssl.certificat2.com/keynectis/class2keynectisca.crl
+
+            Authority Information Access: 
+                OCSP - URI:http://ocsp-ssl.certificat2.com/ssl-ocsp
+
+            X509v3 Certificate Policies: 
+                Policy: 1.3.6.1.4.1.22234.2.5.2.5.1
+                  CPS: http://www.opentrust.com/PC
+
+            X509v3 Subject Key Identifier: 
+                21:E6:0E:76:91:BB:6E:AA:7C:F5:F0:2B:96:78:9A:B2:F3:78:74:7E
+            X509v3 Authority Key Identifier: 
+                keyid:00:11:41:DF:3B:9D:3B:CB:B8:A2:C1:33:92:A8:81:CC:E5:7D:E7:99
+
+    Signature Algorithm: sha1WithRSAEncryption
+         4d:49:7c:97:a7:fc:ea:91:32:82:8a:be:00:7d:25:bb:a8:9f:
+         ff:a2:be:53:6c:63:ad:5d:fb:59:84:45:9b:15:d1:7f:71:9f:
+         f1:06:c8:fd:2a:d1:90:75:9f:9c:4a:be:5f:8e:16:81:d9:cc:
+         d8:d5:ae:f0:58:03:72:44:59:8d:cf:8c:8c:01:d8:b1:f2:26:
+         96:7e:e0:f2:2f:fd:81:f9:6e:db:81:c3:21:00:ba:81:88:8b:
+         5c:ee:ed:70:ff:2a:e5:82:58:da:36:b0:54:3a:5c:62:5b:12:
+         1c:73:d6:58:9e:fd:c1:03:48:ba:bc:f0:d4:38:19:fa:bb:ca:
+         60:6b:2b:06:76:94:53:9f:21:32:a5:08:f1:13:7b:97:bc:2b:
+         9c:37:41:93:61:4a:21:0e:bb:98:42:8f:89:6d:e1:06:c3:6d:
+         7e:de:55:ff:ed:56:c2:2c:01:f7:ee:5c:b8:1c:e2:fa:f2:da:
+         d1:7b:b8:57:7b:0d:64:37:16:08:a3:b4:e1:10:7c:47:b5:f5:
+         15:d0:8b:49:b1:8b:2f:65:78:52:85:5f:c4:a7:bb:6d:e2:ad:
+         c1:cd:06:f9:be:97:c8:b3:69:27:bd:82:57:df:52:07:3e:04:
+         2c:6a:78:2a:5a:cc:92:02:43:43:3f:aa:ad:85:0e:a4:1f:62:
+         2b:83:63:13
+
+-----BEGIN CERTIFICATE-----
+MIIHjTCCBnWgAwIBAgISESfTM6RAf8ynbsgyA4bYaiiFMA0GCSqGSIb3DQEBBQUA
+MEAxCzAJBgNVBAYTAkZSMRIwEAYDVQQKEwlLRVlORUNUSVMxHTAbBgNVBAMTFENM
+QVNTIDIgS0VZTkVDVElTIENBMB4XDTE0MTIxODA4NTMwM1oXDTE1MTIzMTA4NTMw
+M1owZTELMAkGA1UEBhMCUlUxDzANBgNVBAgUBlJ1c3NpYTEPMA0GA1UEBxQGTW9z
+Y293MQwwCgYDVQQLFANJVE8xDzANBgNVBAoUBllhbmRleDEVMBMGA1UEAxMMYnMu
+eWFuZGV4LnJ1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv5+1oK5/
+24zxK1Tw+Dw8PtWDWuh8n/S+P5pei0emPfS7kTtFWYsnEM8IlPh5nAqpYEI4kLfw
+t3vkPG0dLNQ92i3MbtCWUncBNMlnCZlMUZU1b42EIlq0gX0ooNKp9gfuK/GCpToB
+2YNqKCSy5T8FpvyK8YpUsUUL3XsW+HDTNXdcEonG17kDX/kC4c0lAR7j0gBVQ+f0
+wiE0iwbiMYFCLLDkWXy3scRQQEWSA+WbYPhlFPCu0o1R53+kBN1nuobk/h5c1XnR
+MBGT7F9rZtzkehlUT9QoiLwVUVfCLYKnq57LOpzmoIEBP0tuEjP9orKS1c3SBPYS
+J7EA56vhr82PywIDAQABo4IEWjCCBFYwCQYDVR0TBAIwADAOBgNVHQ8BAf8EBAMC
+BaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMIIC+gYDVR0RBIIC8TCC
+Au2CDGJzLnlhbmRleC5ydYIMYnMueWFuZGV4LnJ1ggxicy55YW5kZXgudWGCDGJz
+LnlhbmRleC5ieYIMYnMueWFuZGV4Lmt6gg1icy55YW5kZXguY29tghBicy55YW5k
+ZXguY29tLnRyggxhbi55YW5kZXgucnWCDGFuLnlhbmRleC51YYIMYW4ueWFuZGV4
+LmJ5ggxhbi55YW5kZXgua3qCDWFuLnlhbmRleC5jb22CEGFuLnlhbmRleC5jb20u
+dHKCDnlhYnMueWFuZGV4LnJ1gg55YWJzLnlhbmRleC51YYIOeWFicy55YW5kZXgu
+YnmCDnlhYnMueWFuZGV4Lmt6gg95YWJzLnlhbmRleC5jb22CEnlhYnMueWFuZGV4
+LmNvbS50coIRYnMtbWV0YS55YW5kZXgucnWCEWJzLW1ldGEueWFuZGV4LnVhghFi
+cy1tZXRhLnlhbmRleC5ieYIRYnMtbWV0YS55YW5kZXgua3qCEmJzLW1ldGEueWFu
+ZGV4LmNvbYIVYnMtbWV0YS55YW5kZXguY29tLnRyggxtYy55YW5kZXgucnWCDG1j
+LnlhbmRleC51YYIMbWMueWFuZGV4LmJ5ggxtYy55YW5kZXgua3qCDW1jLnlhbmRl
+eC5jb22CEG1jLnlhbmRleC5jb20udHKCEmluZm9ybWVyLnlhbmRleC5ydYISaW5m
+b3JtZXIueWFuZGV4LnVhghJpbmZvcm1lci55YW5kZXguYnmCEmluZm9ybWVyLnlh
+bmRleC5reoITaW5mb3JtZXIueWFuZGV4LmNvbYIWaW5mb3JtZXIueWFuZGV4LmNv
+bS50coIUeWFuZGV4YWRleGNoYW5nZS5uZXSCDmtpa3MueWFuZGV4LnJ1gg5raWtz
+LnlhbmRleC51YYIOa2lrcy55YW5kZXguYnmCDmtpa3MueWFuZGV4Lmt6gg9raWtz
+LnlhbmRleC5jb22CEmtpa3MueWFuZGV4LmNvbS50cjBPBgNVHR8ESDBGMESgQqBA
+hj5odHRwOi8vY3JsLXNzbC5jZXJ0aWZpY2F0Mi5jb20va2V5bmVjdGlzL2NsYXNz
+MmtleW5lY3Rpc2NhLmNybDBEBggrBgEFBQcBAQQ4MDYwNAYIKwYBBQUHMAGGKGh0
+dHA6Ly9vY3NwLXNzbC5jZXJ0aWZpY2F0Mi5jb20vc3NsLW9jc3AwRQYDVR0gBD4w
+PDA6Bg0rBgEEAYGtWgIFAgUBMCkwJwYIKwYBBQUHAgEWG2h0dHA6Ly93d3cub3Bl
+bnRydXN0LmNvbS9QQzAdBgNVHQ4EFgQUIeYOdpG7bqp89fArlniasvN4dH4wHwYD
+VR0jBBgwFoAUABFB3zudO8u4osEzkqiBzOV955kwDQYJKoZIhvcNAQEFBQADggEB
+AE1JfJen/OqRMoKKvgB9Jbuon/+ivlNsY61d+1mERZsV0X9xn/EGyP0q0ZB1n5xK
+vl+OFoHZzNjVrvBYA3JEWY3PjIwB2LHyJpZ+4PIv/YH5btuBwyEAuoGIi1zu7XD/
+KuWCWNo2sFQ6XGJbEhxz1lie/cEDSLq88NQ4Gfq7ymBrKwZ2lFOfITKlCPETe5e8
+K5w3QZNhSiEOu5hCj4lt4QbDbX7eVf/tVsIsAffuXLgc4vry2tF7uFd7DWQ3Fgij
+tOEQfEe19RXQi0mxiy9leFKFX8Snu23ircHNBvm+l8izaSe9glffUgc+BCxqeCpa
+zJICQ0M/qq2FDqQfYiuDYxM=
+-----END CERTIFICATE-----
